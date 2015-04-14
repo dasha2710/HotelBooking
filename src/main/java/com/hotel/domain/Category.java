@@ -14,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -30,17 +28,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "categories")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Categories.findAll", query = "SELECT c FROM Categories c"),
-    @NamedQuery(name = "Categories.findById", query = "SELECT c FROM Categories c WHERE c.id = :id"),
-    @NamedQuery(name = "Categories.findByType", query = "SELECT c FROM Categories c WHERE c.type = :type"),
-    @NamedQuery(name = "Categories.findByCapacity", query = "SELECT c FROM Categories c WHERE c.capacity = :capacity"),
-    @NamedQuery(name = "Categories.findByDescription", query = "SELECT c FROM Categories c WHERE c.description = :description"),
-    @NamedQuery(name = "Categories.findByPrice", query = "SELECT c FROM Categories c WHERE c.price = :price")})
-public class Categories implements Serializable {
+public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
@@ -61,19 +52,11 @@ public class Categories implements Serializable {
     @Column(name = "price")
     private int price;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
-    private Collection<Rooms> roomsCollection;
+    private Collection<Room> roomsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
-    private Collection<Pictures> picturesCollection;
+    private Collection<Picture> picturesCollection;
 
-    public Categories() {
-    }
-
-    public Categories(Integer id) {
-        this.id = id;
-    }
-
-    public Categories(Integer id, String type, int capacity, int price) {
-        this.id = id;
+    public Category(String type, int capacity, int price) {
         this.type = type;
         this.capacity = capacity;
         this.price = price;
@@ -120,20 +103,20 @@ public class Categories implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Rooms> getRoomsCollection() {
+    public Collection<Room> getRoomsCollection() {
         return roomsCollection;
     }
 
-    public void setRoomsCollection(Collection<Rooms> roomsCollection) {
+    public void setRoomsCollection(Collection<Room> roomsCollection) {
         this.roomsCollection = roomsCollection;
     }
 
     @XmlTransient
-    public Collection<Pictures> getPicturesCollection() {
+    public Collection<Picture> getPicturesCollection() {
         return picturesCollection;
     }
 
-    public void setPicturesCollection(Collection<Pictures> picturesCollection) {
+    public void setPicturesCollection(Collection<Picture> picturesCollection) {
         this.picturesCollection = picturesCollection;
     }
 
@@ -147,10 +130,10 @@ public class Categories implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Categories)) {
+        if (!(object instanceof Category)) {
             return false;
         }
-        Categories other = (Categories) object;
+        Category other = (Category) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

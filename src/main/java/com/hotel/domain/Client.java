@@ -15,8 +15,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -33,19 +31,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "clients")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Clients.findAll", query = "SELECT c FROM Clients c"),
-    @NamedQuery(name = "Clients.findById", query = "SELECT c FROM Clients c WHERE c.id = :id"),
-    @NamedQuery(name = "Clients.findBySurname", query = "SELECT c FROM Clients c WHERE c.surname = :surname"),
-    @NamedQuery(name = "Clients.findByName", query = "SELECT c FROM Clients c WHERE c.name = :name"),
-    @NamedQuery(name = "Clients.findByBirthday", query = "SELECT c FROM Clients c WHERE c.birthday = :birthday"),
-    @NamedQuery(name = "Clients.findByPhone", query = "SELECT c FROM Clients c WHERE c.phone = :phone"),
-    @NamedQuery(name = "Clients.findByEmail", query = "SELECT c FROM Clients c WHERE c.email = :email"),
-    @NamedQuery(name = "Clients.findByPassport", query = "SELECT c FROM Clients c WHERE c.passport = :passport")})
-public class Clients implements Serializable {
+public class Client implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
@@ -80,19 +69,11 @@ public class Clients implements Serializable {
     @Column(name = "passport")
     private String passport;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientId")
-    private Collection<Orders> ordersCollection;
+    private Collection<Order> ordersCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientId")
-    private Collection<Users> usersCollection;
+    private Collection<User> usersCollection;
 
-    public Clients() {
-    }
-
-    public Clients(Integer id) {
-        this.id = id;
-    }
-
-    public Clients(Integer id, String surname, String name, String phone, String email, String passport) {
-        this.id = id;
+    public Client(String surname, String name, String phone, String email, String passport) {
         this.surname = surname;
         this.name = name;
         this.phone = phone;
@@ -157,20 +138,20 @@ public class Clients implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Orders> getOrdersCollection() {
+    public Collection<Order> getOrdersCollection() {
         return ordersCollection;
     }
 
-    public void setOrdersCollection(Collection<Orders> ordersCollection) {
+    public void setOrdersCollection(Collection<Order> ordersCollection) {
         this.ordersCollection = ordersCollection;
     }
 
     @XmlTransient
-    public Collection<Users> getUsersCollection() {
+    public Collection<User> getUsersCollection() {
         return usersCollection;
     }
 
-    public void setUsersCollection(Collection<Users> usersCollection) {
+    public void setUsersCollection(Collection<User> usersCollection) {
         this.usersCollection = usersCollection;
     }
 
@@ -184,10 +165,10 @@ public class Clients implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Clients)) {
+        if (!(object instanceof Client)) {
             return false;
         }
-        Clients other = (Clients) object;
+        Client other = (Client) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

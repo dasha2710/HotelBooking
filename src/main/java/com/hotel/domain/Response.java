@@ -15,8 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,15 +29,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "responses")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Responses.findAll", query = "SELECT r FROM Responses r"),
-    @NamedQuery(name = "Responses.findById", query = "SELECT r FROM Responses r WHERE r.id = :id"),
-    @NamedQuery(name = "Responses.findByDateCreated", query = "SELECT r FROM Responses r WHERE r.dateCreated = :dateCreated"),
-    @NamedQuery(name = "Responses.findByText", query = "SELECT r FROM Responses r WHERE r.text = :text")})
-public class Responses implements Serializable {
+public class Response implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
@@ -53,17 +46,9 @@ public class Responses implements Serializable {
     private String text;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users userId;
+    private User userId;
 
-    public Responses() {
-    }
-
-    public Responses(Integer id) {
-        this.id = id;
-    }
-
-    public Responses(Integer id, String text) {
-        this.id = id;
+    public Response(String text) {
         this.text = text;
     }
 
@@ -91,11 +76,11 @@ public class Responses implements Serializable {
         this.text = text;
     }
 
-    public Users getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(Users userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 
@@ -109,10 +94,10 @@ public class Responses implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Responses)) {
+        if (!(object instanceof Response)) {
             return false;
         }
-        Responses other = (Responses) object;
+        Response other = (Response) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

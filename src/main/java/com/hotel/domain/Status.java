@@ -14,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -30,14 +28,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "statuses")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Statuses.findAll", query = "SELECT s FROM Statuses s"),
-    @NamedQuery(name = "Statuses.findById", query = "SELECT s FROM Statuses s WHERE s.id = :id"),
-    @NamedQuery(name = "Statuses.findByType", query = "SELECT s FROM Statuses s WHERE s.type = :type")})
-public class Statuses implements Serializable {
+public class Status implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
@@ -47,17 +41,9 @@ public class Statuses implements Serializable {
     @Column(name = "type")
     private String type;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")
-    private Collection<Orders> ordersCollection;
+    private Collection<Order> ordersCollection;
 
-    public Statuses() {
-    }
-
-    public Statuses(Integer id) {
-        this.id = id;
-    }
-
-    public Statuses(Integer id, String type) {
-        this.id = id;
+    public Status(String type) {
         this.type = type;
     }
 
@@ -78,11 +64,11 @@ public class Statuses implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Orders> getOrdersCollection() {
+    public Collection<Order> getOrdersCollection() {
         return ordersCollection;
     }
 
-    public void setOrdersCollection(Collection<Orders> ordersCollection) {
+    public void setOrdersCollection(Collection<Order> ordersCollection) {
         this.ordersCollection = ordersCollection;
     }
 
@@ -96,10 +82,10 @@ public class Statuses implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Statuses)) {
+        if (!(object instanceof Status)) {
             return false;
         }
-        Statuses other = (Statuses) object;
+        Status other = (Status) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

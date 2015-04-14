@@ -15,8 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,17 +28,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "orders")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Orders.findAll", query = "SELECT o FROM Orders o"),
-    @NamedQuery(name = "Orders.findById", query = "SELECT o FROM Orders o WHERE o.id = :id"),
-    @NamedQuery(name = "Orders.findByDateCheckIn", query = "SELECT o FROM Orders o WHERE o.dateCheckIn = :dateCheckIn"),
-    @NamedQuery(name = "Orders.findByDateCheckOut", query = "SELECT o FROM Orders o WHERE o.dateCheckOut = :dateCheckOut"),
-    @NamedQuery(name = "Orders.findByDateCreated", query = "SELECT o FROM Orders o WHERE o.dateCreated = :dateCreated"),
-    @NamedQuery(name = "Orders.findByDateLastModified", query = "SELECT o FROM Orders o WHERE o.dateLastModified = :dateLastModified")})
-public class Orders implements Serializable {
+public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
@@ -62,23 +53,15 @@ public class Orders implements Serializable {
     private Date dateLastModified;
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Statuses statusId;
+    private Status statusId;
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Rooms roomId;
+    private Room roomId;
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Clients clientId;
+    private Client clientId;
 
-    public Orders() {
-    }
-
-    public Orders(Integer id) {
-        this.id = id;
-    }
-
-    public Orders(Integer id, Date dateCheckIn, Date dateCheckOut) {
-        this.id = id;
+    public Order(Date dateCheckIn, Date dateCheckOut) {
         this.dateCheckIn = dateCheckIn;
         this.dateCheckOut = dateCheckOut;
     }
@@ -123,27 +106,27 @@ public class Orders implements Serializable {
         this.dateLastModified = dateLastModified;
     }
 
-    public Statuses getStatusId() {
+    public Status getStatusId() {
         return statusId;
     }
 
-    public void setStatusId(Statuses statusId) {
+    public void setStatusId(Status statusId) {
         this.statusId = statusId;
     }
 
-    public Rooms getRoomId() {
+    public Room getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(Rooms roomId) {
+    public void setRoomId(Room roomId) {
         this.roomId = roomId;
     }
 
-    public Clients getClientId() {
+    public Client getClientId() {
         return clientId;
     }
 
-    public void setClientId(Clients clientId) {
+    public void setClientId(Client clientId) {
         this.clientId = clientId;
     }
 
@@ -157,10 +140,10 @@ public class Orders implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Orders)) {
+        if (!(object instanceof Order)) {
             return false;
         }
-        Orders other = (Orders) object;
+        Order other = (Order) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

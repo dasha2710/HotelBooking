@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -26,44 +24,29 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Dasha
  */
 @Entity
-@Table(name = "pictures")
+@Table(name = "admins")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Pictures.findAll", query = "SELECT p FROM Pictures p"),
-    @NamedQuery(name = "Pictures.findById", query = "SELECT p FROM Pictures p WHERE p.id = :id"),
-    @NamedQuery(name = "Pictures.findByPath", query = "SELECT p FROM Pictures p WHERE p.path = :path"),
-    @NamedQuery(name = "Pictures.findByIsCentral", query = "SELECT p FROM Pictures p WHERE p.isCentral = :isCentral")})
-public class Pictures implements Serializable {
+public class Admin implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "path")
-    private String path;
+    @Column(name = "login")
+    private String login;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "is_central")
-    private int isCentral;
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Categories categoryId;
+    @Size(min = 1, max = 45)
+    @Column(name = "password")
+    private String password;
 
-    public Pictures() {
-    }
-
-    public Pictures(Integer id) {
-        this.id = id;
-    }
-
-    public Pictures(Integer id, String path, int isCentral) {
-        this.id = id;
-        this.path = path;
-        this.isCentral = isCentral;
+    public Admin(String login, String password) {
+        this.login = login;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -74,28 +57,20 @@ public class Pictures implements Serializable {
         this.id = id;
     }
 
-    public String getPath() {
-        return path;
+    public String getLogin() {
+        return login;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public int getIsCentral() {
-        return isCentral;
+    public String getPassword() {
+        return password;
     }
 
-    public void setIsCentral(int isCentral) {
-        this.isCentral = isCentral;
-    }
-
-    public Categories getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Categories categoryId) {
-        this.categoryId = categoryId;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -108,10 +83,10 @@ public class Pictures implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Pictures)) {
+        if (!(object instanceof Admin)) {
             return false;
         }
-        Pictures other = (Pictures) object;
+        Admin other = (Admin) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -120,7 +95,8 @@ public class Pictures implements Serializable {
 
     @Override
     public String toString() {
-        return "com.hotel.domain.Pictures[ id=" + id + " ]";
+        return "com.hotel.domain.Admins[ id=" + id + " ]";
     }
-    
+
 }
+
