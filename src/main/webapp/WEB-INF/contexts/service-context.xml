@@ -5,5 +5,7 @@
 
        <bean id="userService" class="com.hotel.service.UserService"/>
 
+       <bean id="apartmentsService" class="com.hotel.service.ApartmentService"/>
+
        <bean id="registerFormValidator" class="com.hotel.validators.RegisterFormValidator"/>
 </beans>

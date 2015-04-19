@@ -8,7 +8,7 @@
     <display-name>Spring MVC Application</display-name>
 
     <servlet>
-        <servlet-name>register</servlet-name>
+        <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
@@ -18,8 +18,8 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>register</servlet-name>
-        <url-pattern>/register</url-pattern>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <context-param>

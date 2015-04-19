@@ -56,6 +56,8 @@ public class Category implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
     private Collection<Picture> picturesCollection;
 
+    public Category() {}
+
     public Category(String type, int capacity, int price) {
         this.type = type;
         this.capacity = capacity;

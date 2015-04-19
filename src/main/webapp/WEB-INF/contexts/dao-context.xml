@@ -32,4 +32,6 @@
        <bean id="userDao" class="com.hotel.dao.UserDao" />
 
        <bean id="clientDao" class="com.hotel.dao.ClientDao" />
+
+       <bean id="categoryDao" class="com.hotel.dao.CategoryDao" />
 </beans>
