@@ -29,5 +29,7 @@
        </bean>
        <tx:annotation-driven transaction-manager="transactionManager"/>
 
-       <bean id="adminDao" class="com.hotel.dao.AdminDao"/>
+       <bean id="userDao" class="com.hotel.dao.UserDao" />
+
+       <bean id="clientDao" class="com.hotel.dao.ClientDao" />
 </beans>

@@ -3,5 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-       <bean id="adminService" class="com.hotel.service.AdminServiceImpl"/>
+       <bean id="userService" class="com.hotel.service.UserService"/>
+
+       <bean id="registerFormValidator" class="com.hotel.validators.RegisterFormValidator"/>
 </beans>

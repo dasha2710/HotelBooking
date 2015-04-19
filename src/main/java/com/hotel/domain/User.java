@@ -8,19 +8,7 @@ package com.hotel.domain;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -50,6 +38,8 @@ public class User implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "password")
     private String password;
+    @Transient
+    private String matchingPassword;
     @Column(name = "date_registered")
     @Temporal(TemporalType.DATE)
     private Date dateRegistered;
@@ -57,9 +47,11 @@ public class User implements Serializable {
     private Collection<Response> responsesCollection;
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Client clientId;
+    private Client client;
 
-   public User(String login, String password) {
+    public User(){};
+
+    public User(String login, String password) {
         this.login = login;
         this.password = password;
     }
@@ -88,6 +80,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public String getMatchingPassword() {
+        return matchingPassword;
+    }
+
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
+    }
+
     public Date getDateRegistered() {
         return dateRegistered;
     }
@@ -105,12 +105,12 @@ public class User implements Serializable {
         this.responsesCollection = responsesCollection;
     }
 
-    public Client getClientId() {
-        return clientId;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClientId(Client clientId) {
-        this.clientId = clientId;
+    public void setClient(Client clientId) {
+        this.client = clientId;
     }
 
     @Override

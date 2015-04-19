@@ -51,7 +51,6 @@ public class Client implements Serializable {
     @Column(name = "birthday")
     @Temporal(TemporalType.DATE)
     private Date birthday;
-    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 13)
@@ -70,8 +69,11 @@ public class Client implements Serializable {
     private String passport;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientId")
     private Collection<Order> ordersCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
     private Collection<User> usersCollection;
+
+    public Client() {
+    }
 
     public Client(String surname, String name, String phone, String email, String passport) {
         this.surname = surname;
