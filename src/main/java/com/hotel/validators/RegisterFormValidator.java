@@ -26,7 +26,6 @@ public class RegisterFormValidator implements Validator {
         User user = (User) obj;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "client.surname", "empty.surname");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "client.name", "empty.name");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "client.birthday", "empty.birthday");
         if(!user.getClient().getPhone().matches(PHONE_PATTERN)) {
             errors.rejectValue("client.phone","invalid.phone");
         }
