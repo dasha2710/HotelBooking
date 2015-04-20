@@ -38,7 +38,7 @@ public class RegisterFormValidator implements Validator {
             errors.rejectValue("login", "existed.login");
         };
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "empty.password");
-        if (user.getPassword().length() < 6) {
+        if (user.getPassword().length() > 0 && user.getPassword().length() < 6) {
             errors.rejectValue("password", "invalid.password.short");
         }
         if (user.getMatchingPassword().isEmpty() || !user.getPassword().equals(user.getMatchingPassword())) {

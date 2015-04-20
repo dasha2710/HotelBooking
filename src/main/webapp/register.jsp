@@ -1,3 +1,4 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
@@ -16,8 +17,15 @@
 
     <script>
         $(document).ready(function() {
-            $("#datepicker").datepicker();
+            $("#datepicker").datepicker( {dateFormat: 'mm/dd/yy' });
         });
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
     </script>
 </head>
 <body>
@@ -39,12 +47,12 @@
             </tr>
             <tr>
                 <td>BirthDate:</td>
-                <td><form:input path="client.birthday" id="datepicker" placeholder="dd/mm/yyyy"/></td>
+                <td><form:input path="client.birthday" id="datepicker" type="text" placeholder="mm/dd/yyyy"/></td>
                 <td><form:errors path="client.birthday" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>
                 <td>Phone*:</td>
-                <td><form:input path="client.phone" placeholder="380XXXXXXXX"/></td>
+                <td><form:input path="client.phone" onkeypress="return isNumberKey(event)" placeholder="380XXXXXXXX"/></td>
                 <td><form:errors path="client.phone" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>

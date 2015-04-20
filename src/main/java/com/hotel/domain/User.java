@@ -38,6 +38,10 @@ public class User implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "password")
     private String password;
+    @NotNull
+    @Size(min = 1, max = 10)
+    @Column(name = "salt")
+    private String salt;
     @Transient
     private String matchingPassword;
     @Column(name = "date_registered")
@@ -78,6 +82,14 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getMatchingPassword() {
