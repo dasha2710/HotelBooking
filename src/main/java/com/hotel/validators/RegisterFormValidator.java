@@ -1,6 +1,7 @@
 package com.hotel.validators;
 
 import com.hotel.dao.UserDao;
+import com.hotel.domain.Client;
 import com.hotel.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
@@ -19,30 +20,31 @@ public class RegisterFormValidator implements Validator {
     private UserDao userDao;
 
     public boolean supports(Class<?> aClass) {
-        return User.class.equals(aClass);
+        return Client.class.equals(aClass);
     }
 
     public void validate(Object obj, Errors errors) {
-        User user = (User) obj;
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "client.surname", "empty.surname");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "client.name", "empty.name");
-        if(!user.getClient().getPhone().matches(PHONE_PATTERN)) {
-            errors.rejectValue("client.phone","invalid.phone");
+        Client client = (Client) obj;
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "surname", "empty.surname");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "empty.name");
+        if(!client.getPhone().matches(PHONE_PATTERN)) {
+            errors.rejectValue("phone","invalid.phone");
         }
-        if(!user.getClient().getEmail().matches(EMAIL_PATTERN)) {
-            errors.rejectValue("client.email","invalid.email");
+        if(!client.getEmail().matches(EMAIL_PATTERN)) {
+            errors.rejectValue("email","invalid.email");
         }
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "client.passport","empty.passport");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "empty.login");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passport","empty.passport");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "user.login", "empty.login");
+        User user = client.getUser();
         if (!userDao.checkUserNotExists(user.getLogin())) {
-            errors.rejectValue("login", "existed.login");
+            errors.rejectValue("user.login", "existed.login");
         };
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "empty.password");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "user.password", "empty.password");
         if (user.getPassword().length() > 0 && user.getPassword().length() < 6) {
-            errors.rejectValue("password", "invalid.password.short");
+            errors.rejectValue("user.password", "invalid.password.short");
         }
         if (user.getMatchingPassword().isEmpty() || !user.getPassword().equals(user.getMatchingPassword())) {
-            errors.rejectValue("matchingPassword", "invalid.passwordConfDiff");
+            errors.rejectValue("user.matchingPassword", "invalid.passwordConfDiff");
         }
 
     }

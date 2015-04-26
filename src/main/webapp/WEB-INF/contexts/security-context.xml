@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<b:beans xmlns:b="http://www.springframework.org/schema/beans"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://www.springframework.org/schema/security"
+         xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+    <!-- Form and Security Access Configuration -->
+    <http use-expressions="true" access-denied-page="/403" disable-url-rewriting="true">
+
+        <session-management invalid-session-url="/login?time=1">
+            <concurrency-control max-sessions="1" expired-url="/login?time=1"/>
+        </session-management>
+
+        <form-login login-page="/login" login-processing-url="/login.do" default-target-url="/apartments"
+                    always-use-default-target="true" authentication-failure-url="/login?err=1"
+                    username-parameter="login" password-parameter="password"/>
+
+        <logout logout-url="/logout" logout-success-url="/login?out=1" delete-cookies="JSESSIONID"
+                invalidate-session="true"/>
+
+        <intercept-url requires-channel="http" pattern="/apartments" access="hasRole('CLIENT')"/>
+        <intercept-url requires-channel="http" pattern="/admin/**" access="hasRole('ADMIN')"/>
+        <intercept-url requires-channel="http" pattern="/**" access="permitAll()"/>
+    </http>
+
+    <!-- Authentication Providers for Form Login -->
+    <authentication-manager alias="authManager">
+        <authentication-provider>
+            <password-encoder hash="sha-256">
+                <salt-source user-property="username"/>
+            </password-encoder>
+            <jdbc-user-service data-source-ref="dataSource"
+                               users-by-username-query="select login,password,'true' as 'enabled' from users where login=?"
+                               authorities-by-username-query="select login, role from users where login=?"/>
+
+        </authentication-provider>
+    </authentication-manager>
+
+</b:beans>

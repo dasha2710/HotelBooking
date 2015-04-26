@@ -1,18 +1,29 @@
 package com.hotel.controller;
 
+import com.google.common.collect.Lists;
 import com.hotel.domain.Client;
+import com.hotel.domain.Role;
 import com.hotel.domain.User;
 import com.hotel.service.UserService;
 import com.hotel.validators.RegisterFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,6 +37,9 @@ public class RegisterController {
     private UserService userService;
     @Autowired
     private RegisterFormValidator registerFormValidator;
+    @Autowired
+    @Qualifier("authManager")
+    protected AuthenticationManager authManager;
 
     @InitBinder
     private void initBinder(WebDataBinder binder) {
@@ -37,22 +51,34 @@ public class RegisterController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String initForm(Model model) {
-        User user = new User();
-        user.setClient(new Client());
-        model.addAttribute("user", user);
+        Client client = new Client();
+        client.setUser(new User());
+        model.addAttribute("client", client);
         return "register";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String savingUser(Model model, @Validated User user, BindingResult result) {
+    public String savingUser(Model model, @Validated Client client, BindingResult result, HttpServletRequest request) {
         if (!result.hasErrors()) {
-            User savedUser = userService.saveClient(user);
-            model.addAttribute("user", savedUser);
-            return "show";
+            Client savedUser = userService.saveClient(client);
+            model.addAttribute("client", savedUser);
+            User user = savedUser.getUser();
+            autoLogin(user.getLogin(), user.getMatchingPassword(), request);
+            return "apartments";
         }
         return "register";
     }
 
+    private void autoLogin(String username, String password, HttpServletRequest request) {
 
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(username,
+                        password,
+                        Lists.newArrayList(Role.CLIENT));
 
+        Authentication authentication = authManager.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+    }
 }

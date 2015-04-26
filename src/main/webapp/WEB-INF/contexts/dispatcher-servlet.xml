@@ -14,8 +14,7 @@
               <property name="basename" value="validation" />
        </bean>
 
-       <bean
-               class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+       <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
               <property name="prefix">
                      <value>/</value>
               </property>

@@ -5,6 +5,10 @@
 
        <bean id="userService" class="com.hotel.service.UserService"/>
 
+       <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
+              <constructor-arg value="256"/>
+       </bean>
+
        <bean id="apartmentsService" class="com.hotel.service.ApartmentService"/>
 
        <bean id="registerFormValidator" class="com.hotel.validators.RegisterFormValidator"/>

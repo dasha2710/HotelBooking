@@ -5,24 +5,14 @@
  */
 package com.hotel.domain;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
 
 /**
  *
@@ -69,8 +59,9 @@ public class Client implements Serializable {
     private String passport;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientId")
     private Collection<Order> ordersCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
-    private Collection<User> usersCollection;
+    @OneToOne(optional=false)
+    @JoinColumn(name="user_id")
+    private User user;
 
     public Client() {
     }
@@ -148,13 +139,12 @@ public class Client implements Serializable {
         this.ordersCollection = ordersCollection;
     }
 
-    @XmlTransient
-    public Collection<User> getUsersCollection() {
-        return usersCollection;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsersCollection(Collection<User> usersCollection) {
-        this.usersCollection = usersCollection;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

@@ -5,14 +5,14 @@
  */
 package com.hotel.domain;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
 
 /**
  *
@@ -38,10 +38,6 @@ public class User implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "password")
     private String password;
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "salt")
-    private String salt;
     @Transient
     private String matchingPassword;
     @Column(name = "date_registered")
@@ -49,8 +45,11 @@ public class User implements Serializable {
     private Date dateRegistered;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<Response> responsesCollection;
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Role role;
+    @OneToOne(optional = false, mappedBy = "user")
     private Client client;
 
     public User(){};
@@ -84,12 +83,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getSalt() {
-        return salt;
+    public Role getRole() {
+        return role;
     }
 
-    public void setSalt(String salt) {
-        this.salt = salt;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getMatchingPassword() {

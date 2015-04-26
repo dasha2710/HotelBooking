@@ -30,55 +30,55 @@
 </head>
 <body>
 <div align="center">
-    <form:form method="post" commandName="user">
+    <form:form method="post" commandName="client">
         <table border="0">
             <tr>
                 <td colspan="2" align="center"><h2>Registration</h2></td>
             </tr>
             <tr>
                 <td>Surname*:</td>
-                <td><form:input path="client.surname" /></td>
-                <td><form:errors path="client.surname" cssStyle="color: #ff0000;"/></td>
+                <td><form:input path="surname" /></td>
+                <td><form:errors path="surname" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>
                 <td>Name*:</td>
-                <td><form:input path="client.name" /></td>
-                <td><form:errors path="client.name" cssStyle="color: #ff0000;"/></td>
+                <td><form:input path="name" /></td>
+                <td><form:errors path="name" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>
                 <td>BirthDate:</td>
-                <td><form:input path="client.birthday" id="datepicker" type="text" placeholder="mm/dd/yyyy"/></td>
-                <td><form:errors path="client.birthday" cssStyle="color: #ff0000;"/></td>
+                <td><form:input path="birthday" id="datepicker" type="text" placeholder="mm/dd/yyyy"/></td>
+                <td><form:errors path="birthday" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>
                 <td>Phone*:</td>
-                <td><form:input path="client.phone" onkeypress="return isNumberKey(event)" placeholder="380XXXXXXXX"/></td>
-                <td><form:errors path="client.phone" cssStyle="color: #ff0000;"/></td>
+                <td><form:input path="phone" onkeypress="return isNumberKey(event)" placeholder="380XXXXXXXX"/></td>
+                <td><form:errors path="phone" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>
                 <td>Email*:</td>
-                <td><form:input path="client.email" placeholder="email@example.com"/></td>
-                <td><form:errors path="client.email" cssStyle="color: #ff0000;"/></td>
+                <td><form:input path="email" placeholder="email@example.com"/></td>
+                <td><form:errors path="email" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>
                 <td>Passport*:</td>
-                <td><form:input path="client.passport" /></td>
-                <td><form:errors path="client.passport" cssStyle="color: #ff0000;"/></td>
+                <td><form:input path="passport" /></td>
+                <td><form:errors path="passport" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>
                 <td>Login*:</td>
-                <td><form:input path="login" /></td>
-                <td><form:errors path="login" cssStyle="color: #ff0000;"/></td>
+                <td><form:input path="user.login" /></td>
+                <td><form:errors path="user.login" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>
                 <td>Password*:</td>
-                <td><form:password path="password" placeholder="More than 5 symbols"/></td>
-                <td><form:errors path="password" cssStyle="color: #ff0000;"/></td>
+                <td><form:password path="user.password" placeholder="More than 5 symbols"/></td>
+                <td><form:errors path="user.password" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>
                 <td>Confirm password*:</td>
-                <td><form:password path="matchingPassword" /></td>
-                <td><form:errors path="matchingPassword" cssStyle="color: #ff0000;"/></td>
+                <td><form:password path="user.matchingPassword" /></td>
+                <td><form:errors path="user.matchingPassword" cssStyle="color: #ff0000;"/></td>
             </tr>
 
             <tr>
