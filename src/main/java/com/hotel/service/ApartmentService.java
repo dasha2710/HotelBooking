@@ -1,7 +1,10 @@
 package com.hotel.service;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.hotel.dao.CategoryDao;
 import com.hotel.domain.Category;
+import com.hotel.domain.Picture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,19 @@ public class ApartmentService {
     private CategoryDao categoryDao;
 
     public List<Category> getAllApartments() {
-        return categoryDao.findAll();
+        List<Category> categories = categoryDao.findAll();
+        for (Category category: categories) {
+            setMainPictureForCategory(category);
+        }
+        return categories;
+    }
+
+    private void setMainPictureForCategory(Category category) {
+        category.setMainPicture(Iterables.find(category.getPicturesCollection(), new Predicate<Picture>() {
+            @Override
+            public boolean apply(Picture picture) {
+                return picture.isCentral();
+            }
+        }));
     }
 }

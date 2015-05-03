@@ -1,0 +1,15 @@
+table{
+    table-layout:fixed;
+}
+th.capacity, th.price {
+    width: 7%;
+}
+th.description{
+    width: 50%;
+}
+th.type{
+    width: 10%;
+}
+th.picture{
+    width: 15%;
+}

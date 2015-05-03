@@ -17,7 +17,6 @@
         <logout logout-url="/logout" logout-success-url="/login?out=1" delete-cookies="JSESSIONID"
                 invalidate-session="true"/>
 
-        <intercept-url requires-channel="http" pattern="/apartments" access="hasRole('CLIENT')"/>
         <intercept-url requires-channel="http" pattern="/admin/**" access="hasRole('ADMIN')"/>
         <intercept-url requires-channel="http" pattern="/**" access="permitAll()"/>
     </http>
