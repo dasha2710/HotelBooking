@@ -39,7 +39,10 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" align="center">
+                <td>
+                    <a href="forgot_pass">Forgot password</a>
+                </td>
+                <td>
                     <input value="Login" name="submit" type="submit"/>
                 </td>
             </tr>

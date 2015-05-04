@@ -29,6 +29,7 @@ public class ApartmentsController {
     public String getInfoAboutHotel() {
         return "index";
     }
+
     @RequestMapping(value= "/contacts")
     public String getContacts() {
         return "contacts";

@@ -20,6 +20,7 @@
             </sec:authorize>
             <sec:authorize access="hasRole('CLIENT')">
                 <a href="logout"><input type="submit" value="Log out"></a>
+                <a href="office"><input type="submit" value="Personal office"></a>
             </sec:authorize>
         </div>
         <div align="center" id="links">

@@ -51,7 +51,7 @@
                 <td><form:errors path="name" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>
-                <td>BirthDate:</td>
+                <td>BirthDate*:</td>
                 <td><form:input path="birthday" id="datepicker" type="text" placeholder="mm/dd/yyyy"/></td>
                 <td><form:errors path="birthday" cssStyle="color: #ff0000;"/></td>
             </tr>
