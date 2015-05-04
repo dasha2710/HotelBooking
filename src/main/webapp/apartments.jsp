@@ -13,27 +13,30 @@
     <title></title>
 </head>
 <body>
+<header>
+    <jsp:include page="header.jsp"/>
+</header>
 <div align="center">
-  <table>
-    <tr>
-      <th class="picture">Photo</th>
-      <th class="type">Apartment type</th>
-      <th class="capacity">Capacity (people)</th>
-      <th class="description">Description</th>
-      <th class="price">Price ($/24h)</th>
-      <th></th>
-    </tr>
-    <c:forEach var="category" items="${apartments}">
-      <tr>
-        <td><img src="${category.mainPicture.path}"/></td>
-        <td>${category.type}</td>
-        <td>${category.capacity}</td>
-        <td>${category.description}</td>
-        <td>${category.price}</td>
-        <td><a href="#">More...</a> </td>
-      </tr>
-    </c:forEach>
-  </table>
+    <table>
+        <tr>
+            <th class="picture">Photo</th>
+            <th class="type">Apartment type</th>
+            <th class="capacity">Capacity (people)</th>
+            <th class="description">Description</th>
+            <th class="price">Price ($/24h)</th>
+            <th></th>
+        </tr>
+        <c:forEach var="category" items="${apartments}">
+            <tr>
+                <td><img src="${category.mainPicture.path}"/></td>
+                <td>${category.type}</td>
+                <td>${category.capacity}</td>
+                <td>${category.description}</td>
+                <td>${category.price}</td>
+                <td><a href="#">More...</a></td>
+            </tr>
+        </c:forEach>
+    </table>
 </div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<link rel="stylesheet" type="text/css" href="../resources/css/styles.css">
 <%--
   Created by IntelliJ IDEA.
   User: Daryna_Ragimova
@@ -11,13 +12,14 @@
 <html>
 <head>
     <title>Registration</title>
-    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet"
+          type="text/css"/>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $("#datepicker").datepicker( {dateFormat: 'mm/dd/yy' });
+        $(document).ready(function () {
+            $("#datepicker").datepicker({dateFormat: 'mm/dd/yy'});
         });
         function isNumberKey(evt) {
             var charCode = (evt.which) ? evt.which : event.keyCode
@@ -29,6 +31,9 @@
     </script>
 </head>
 <body>
+<header>
+    <jsp:include page="header.jsp"/>
+</header>
 <div align="center">
     <form:form method="post" commandName="client">
         <table border="0">
@@ -37,12 +42,12 @@
             </tr>
             <tr>
                 <td>Surname*:</td>
-                <td><form:input path="surname" /></td>
+                <td><form:input path="surname"/></td>
                 <td><form:errors path="surname" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>
                 <td>Name*:</td>
-                <td><form:input path="name" /></td>
+                <td><form:input path="name"/></td>
                 <td><form:errors path="name" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>
@@ -62,12 +67,12 @@
             </tr>
             <tr>
                 <td>Passport*:</td>
-                <td><form:input path="passport" /></td>
+                <td><form:input path="passport"/></td>
                 <td><form:errors path="passport" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>
                 <td>Login*:</td>
-                <td><form:input path="user.login" /></td>
+                <td><form:input path="user.login"/></td>
                 <td><form:errors path="user.login" cssStyle="color: #ff0000;"/></td>
             </tr>
             <tr>
@@ -77,12 +82,12 @@
             </tr>
             <tr>
                 <td>Confirm password*:</td>
-                <td><form:password path="user.matchingPassword" /></td>
+                <td><form:password path="user.matchingPassword"/></td>
                 <td><form:errors path="user.matchingPassword" cssStyle="color: #ff0000;"/></td>
             </tr>
 
             <tr>
-                <td colspan="2" align="center"><input type="submit" value="Register" /></td>
+                <td colspan="2" align="center"><input type="submit" value="Register"/></td>
             </tr>
         </table>
     </form:form>
