@@ -7,13 +7,16 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<link rel="stylesheet" type="text/css" href="../resources/css/styles.css">
 <html>
 <head>
   <title></title>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 </head>
 <body>
-<h1>Booking page!</h1>
+<header>
+  <jsp:include page="header.jsp"/>
+</header>
 <div align="center">
   <table><tr>
     <td>Date check in:</td>
@@ -73,12 +76,13 @@
 
       var table = $('#available_categories');
 
-      var th = "<tr><th>Apartment type</th><th>Capacity (people)</th><th>Description</th><th>Price ($/24h)</th><th></th></tr>";
+      var th = '<tr><th class="picture">Photo</th><th class="type">Apartment type</th><th class="capacity">Capacity (people)</th>'
+              + '<th class="description">Description</th><th class="price">Price ($/24h)</th><th></th></tr>';
 
       if (categories.length > 0) {
         table.append(th);
         $.each(categories, function(i, category) {
-          th = "<tr><td>" + category.type + "</td><td>" + category.capacity + "</td><td>" + category.description
+          th = "<tr><td></td><td>" + category.type + "</td><td>" + category.capacity + "</td><td>" + category.description
           + "</td><td>" + category.price + "</td><td><input type='button' value='Book'></td></tr>";
           table.append(th);
         })
