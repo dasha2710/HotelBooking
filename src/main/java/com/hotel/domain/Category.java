@@ -5,6 +5,9 @@
  */
 package com.hotel.domain;
 
+import org.json.JSONObject;
+import org.json.simple.JSONAware;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,7 +23,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "categories")
 @XmlRootElement
-public class Category implements Serializable {
+public class Category implements Serializable, JSONAware {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -128,15 +131,22 @@ public class Category implements Serializable {
             return false;
         }
         Category other = (Category) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
-        return "com.hotel.domain.Categories[ id=" + id + " ]";
+        return "com.hotel.domain.Categories[ id=" + id + ", type=" + type + ", capacity=" + capacity + ", price="
+                + price + " ]";
     }
-    
+
+    public String toJSONString() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", id);
+        obj.put("type", type);
+        obj.put("capacity", capacity);
+        obj.put("description", description);
+        obj.put("price", price);
+        return obj.toString();
+    }
 }

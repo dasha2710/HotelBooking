@@ -11,5 +11,7 @@
 
        <bean id="apartmentsService" class="com.hotel.service.ApartmentService"/>
 
+       <bean id="bookingService" class="com.hotel.service.BookingService"/>
+
        <bean id="registerFormValidator" class="com.hotel.validators.RegisterFormValidator"/>
 </beans>

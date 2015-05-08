@@ -38,7 +38,7 @@ public class RegisterFormValidator implements Validator {
         User user = client.getUser();
         if (!userDao.checkUserNotExists(user.getLogin())) {
             errors.rejectValue("user.login", "existed.login");
-        };
+        }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "user.password", "empty.password");
         if (user.getPassword().length() > 0 && user.getPassword().length() < 6) {
             errors.rejectValue("user.password", "invalid.password.short");
