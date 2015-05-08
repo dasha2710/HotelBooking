@@ -1,0 +1,45 @@
+table{
+    table-layout:fixed;
+}
+
+th.capacity, th.price {
+    width: 7%;
+}
+
+th.description{
+    width: 50%;
+}
+
+th.type{
+    width: 10%;
+}
+
+th.picture{
+    width: 15%;
+}
+
+#header {
+    background-image: url(/resources/photos/main.jpg);
+    background-size: cover;
+    height: 300px;
+}
+
+#links {
+    position: relative;
+    font-size: 200%;
+    top:75%;
+}
+
+a:link {
+    color: deepskyblue;
+}
+
+a:visited {
+    color: blue;
+}
+
+input[type = submit] {
+    color: whitesmoke;
+    background-color: darkblue;
+    font-size: 150%;
+}

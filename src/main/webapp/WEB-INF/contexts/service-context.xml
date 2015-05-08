@@ -14,4 +14,6 @@
        <bean id="bookingService" class="com.hotel.service.BookingService"/>
 
        <bean id="registerFormValidator" class="com.hotel.validators.RegisterFormValidator"/>
+
+       <bean id="forgotPassValidator" class="com.hotel.validators.ForgotPassLoginValidator"/>
 </beans>

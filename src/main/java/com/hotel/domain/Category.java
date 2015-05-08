@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -48,8 +49,10 @@ public class Category implements Serializable, JSONAware {
     private int price;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
     private Collection<Room> roomsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
-    private Collection<Picture> picturesCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId", fetch = FetchType.EAGER)
+    private List<Picture> picturesCollection;
+    @Transient
+    private Picture mainPicture;
 
     public Category() {}
 
@@ -109,12 +112,20 @@ public class Category implements Serializable, JSONAware {
     }
 
     @XmlTransient
-    public Collection<Picture> getPicturesCollection() {
+    public List<Picture> getPicturesCollection() {
         return picturesCollection;
     }
 
-    public void setPicturesCollection(Collection<Picture> picturesCollection) {
+    public void setPicturesCollection(List<Picture> picturesCollection) {
         this.picturesCollection = picturesCollection;
+    }
+
+    public Picture getMainPicture() {
+        return mainPicture;
+    }
+
+    public void setMainPicture(Picture mainPicture) {
+        this.mainPicture = mainPicture;
     }
 
     @Override

@@ -35,7 +35,7 @@ public class User implements Serializable {
     private String login;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 1000)
     @Column(name = "password")
     private String password;
     @Transient

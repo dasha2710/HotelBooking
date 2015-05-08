@@ -24,4 +24,14 @@ public class ApartmentsController {
         model.addAttribute("apartments", apartments);
         return "apartments";
     }
+
+    @RequestMapping(value= "/index")
+    public String getInfoAboutHotel() {
+        return "index";
+    }
+
+    @RequestMapping(value= "/contacts")
+    public String getContacts() {
+        return "contacts";
+    }
 }

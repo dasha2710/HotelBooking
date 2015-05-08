@@ -38,7 +38,10 @@ public class Picture implements Serializable {
     @ManyToOne(optional = false)
     private Category categoryId;
 
-   public Picture(String path, int isCentral) {
+    public Picture() {
+    }
+
+    public Picture(String path, int isCentral) {
         this.path = path;
         this.isCentral = isCentral;
     }
@@ -65,6 +68,10 @@ public class Picture implements Serializable {
 
     public void setIsCentral(int isCentral) {
         this.isCentral = isCentral;
+    }
+
+    public boolean isCentral(){
+        return getIsCentral() == 1;
     }
 
     public Category getCategoryId() {

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" type="text/css" href="../resources/css/styles.css">
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +7,9 @@
 </head>
 
 <body>
+<header>
+    <jsp:include page="header.jsp"/>
+</header>
 <div align="center">
 
     <form id="form" action="<c:url value='/login.do'/>" method="POST">
@@ -35,7 +39,10 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" align="center">
+                <td>
+                    <a href="forgot_pass">Forgot password</a>
+                </td>
+                <td>
                     <input value="Login" name="submit" type="submit"/>
                 </td>
             </tr>

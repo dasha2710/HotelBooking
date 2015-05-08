@@ -13,6 +13,11 @@
 
        <mvc:annotation-driven/>
 
+<<<<<<< HEAD
+=======
+       <mvc:resources mapping="/resources/**" location="/resources/" />
+
+>>>>>>> b9d7125ffcf0bff745fba0d6c47866568a75c639
        <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
               <property name="basename" value="validation" />
        </bean>
@@ -25,5 +30,4 @@
                      <value>.jsp</value>
               </property>
        </bean>
-
 </beans>
