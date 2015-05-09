@@ -5,6 +5,9 @@
  */
 package com.hotel.domain;
 
+import org.json.simple.JSONAware;
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,7 +21,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "pictures")
 @XmlRootElement
-public class Picture implements Serializable {
+public class Picture implements Serializable, JSONAware {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,7 +39,7 @@ public class Picture implements Serializable {
     private int isCentral;
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Category categoryId;
+    private Category category;
 
     public Picture() {
     }
@@ -74,12 +77,12 @@ public class Picture implements Serializable {
         return getIsCentral() == 1;
     }
 
-    public Category getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Category categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override
@@ -103,5 +106,13 @@ public class Picture implements Serializable {
     public String toString() {
         return "com.hotel.domain.Pictures[ id=" + id + " ]";
     }
-    
+
+    @Override
+    public String toJSONString() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", id);
+        obj.put("path", path);
+        obj.put("isCentral", isCentral);
+        return obj.toString();
+    }
 }

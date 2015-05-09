@@ -82,7 +82,7 @@
       if (categories.length > 0) {
         table.append(th);
         $.each(categories, function(i, category) {
-          th = "<tr><td></td><td>" + category.type + "</td><td>" + category.capacity + "</td><td>" + category.description
+          th = "<tr><td><img src='" + category.mainPicture.path + "'/></td><td>" + category.type + "</td><td>" + category.capacity + "</td><td>" + category.description
           + "</td><td>" + category.price + "</td><td><input type='button' value='Book'></td></tr>";
           table.append(th);
         })

@@ -57,7 +57,7 @@ public class Client implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "passport")
     private String passport;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
     private Collection<Order> ordersCollection;
     @OneToOne(optional=false)
     @JoinColumn(name="user_id")

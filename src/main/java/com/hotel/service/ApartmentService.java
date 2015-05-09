@@ -22,28 +22,13 @@ public class ApartmentService {
     @Autowired
     private CategoryDao categoryDao;
 
-    Log log = LogFactory.getLog(ApartmentService.class);
-
     public List<Category> getAllApartments() {
         List<Category> categories = categoryDao.findAll();
         for (Category category: categories) {
-            setMainPictureForCategory(category);
+            category.setMainPicture();
         }
         return categories;
     }
 
-    private void setMainPictureForCategory(Category category) {
-         try {
-            Picture mainPicture = Iterables.find(category.getPicturesCollection(), new Predicate<Picture>() {
-                @Override
-                public boolean apply(Picture picture) {
-                    return picture.isCentral();
-                }
-            });
-            category.setMainPicture(mainPicture);
-        } catch (NoSuchElementException e) {
-            log.warn(String.format("The main image for category %s was not found", category.getType()));
-        }
 
-    }
 }

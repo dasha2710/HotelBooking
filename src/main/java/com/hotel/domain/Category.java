@@ -5,8 +5,11 @@
  */
 package com.hotel.domain;
 
-import org.json.JSONObject;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import org.json.simple.JSONAware;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,6 +19,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -47,9 +51,9 @@ public class Category implements Serializable, JSONAware {
     @NotNull
     @Column(name = "price")
     private int price;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private Collection<Room> roomsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category", fetch = FetchType.EAGER)
     private List<Picture> picturesCollection;
     @Transient
     private Picture mainPicture;
@@ -147,8 +151,7 @@ public class Category implements Serializable, JSONAware {
 
     @Override
     public String toString() {
-        return "com.hotel.domain.Categories[ id=" + id + ", type=" + type + ", capacity=" + capacity + ", price="
-                + price + " ]";
+        return "com.hotel.domain.Categories[ id=" + id + " ]";
     }
 
     public String toJSONString() {
@@ -158,6 +161,21 @@ public class Category implements Serializable, JSONAware {
         obj.put("capacity", capacity);
         obj.put("description", description);
         obj.put("price", price);
+        obj.put("mainPicture", mainPicture);
         return obj.toString();
+    }
+
+    public void setMainPicture() {
+        try {
+            Picture mainPicture = Iterables.find(picturesCollection, new Predicate<Picture>() {
+                @Override
+                public boolean apply(Picture picture) {
+                    return picture.isCentral();
+                }
+            });
+            setMainPicture(mainPicture);
+        } catch (NoSuchElementException e) {
+        }
+
     }
 }

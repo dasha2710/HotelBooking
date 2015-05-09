@@ -32,7 +32,7 @@ public class Status implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "type")
     private String type;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "status")
     private Collection<Order> ordersCollection;
 
     public Status(String type) {

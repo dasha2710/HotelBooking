@@ -34,9 +34,11 @@ public class Room implements Serializable {
     private String number;
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Category categoryId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roomId")
+    private Category category;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "room")
     private Collection<Order> ordersCollection;
+
+    public Room() {}
 
     public Room(String number) {
         this.number = number;
@@ -58,12 +60,12 @@ public class Room implements Serializable {
         this.number = number;
     }
 
-    public Category getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Category categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @XmlTransient

@@ -18,6 +18,10 @@ public class BookingService {
     private CategoryDao categoryDao;
 
     public List<Category> findByDates(Date startDate, Date endDate) {
-        return categoryDao.findByDates(startDate, endDate);
+        List<Category> categories = categoryDao.findByDates(startDate, endDate);
+        for (Category category : categories) {
+            category.setMainPicture();
+        }
+        return categories;
     }
 }

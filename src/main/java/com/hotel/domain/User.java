@@ -43,7 +43,7 @@ public class User implements Serializable {
     @Column(name = "date_registered")
     @Temporal(TemporalType.DATE)
     private Date dateRegistered;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<Response> responsesCollection;
     @NotNull
     @Enumerated(EnumType.STRING)

@@ -36,7 +36,9 @@ public class Response implements Serializable {
     private String text;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User userId;
+    private User user;
+
+    public Response() {}
 
     public Response(String text) {
         this.text = text;
@@ -66,12 +68,12 @@ public class Response implements Serializable {
         this.text = text;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

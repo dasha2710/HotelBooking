@@ -1,8 +1,10 @@
 package com.hotel.dao;
 
 import com.hotel.domain.Category;
+import com.hotel.domain.Room;
+import com.hotel.domain.Order;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
+import org.hibernate.criterion.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,24 +23,25 @@ public class CategoryDao extends AbstractDao<Category>{
     }
 
     @Transactional
-    public List<Category> findByDates(Date startDate, Date endDate) {
-        String sqlQuery = "select *\n" +
-                "from hotel.categories c\n" +
-                "where exists\n" +
-                "	(select *\n" +
-                "	from hotel.rooms r\n" +
-                "	where r.category_id=c.id and r.id not in\n" +
-                "		(select o.room_id\n" +
-                "		from hotel.orders o\n" +
-                "		where (o.date_check_in >= ? and o.date_check_in <= ?) or\n" +
-                "		(o.date_check_out >= ? and o.date_check_out <= ?) or\n" +
-                "		(o.date_check_in <= ? and o.date_check_out >= ?)))";
+    public List<Category> findByDates(Date dateCheckIn, Date dateCheckOut) {
+        DetachedCriteria ordersCriteria = DetachedCriteria.forClass(Order.class, "o");
+        Criterion startDateMiddle = Restrictions.and(
+                Restrictions.ge("o.dateCheckIn", dateCheckIn), Restrictions.le("o.dateCheckIn", dateCheckOut));
+        Criterion endDateMiddle = Restrictions.and(
+                Restrictions.ge("o.dateCheckOut", dateCheckIn), Restrictions.le("o.dateCheckOut", dateCheckOut));
+        Criterion innerDates = Restrictions.and(
+                Restrictions.le("o.dateCheckIn", dateCheckIn), Restrictions.ge("o.dateCheckOut", dateCheckOut));
+        ordersCriteria.add(Restrictions.or(Restrictions.or(startDateMiddle, endDateMiddle), innerDates));
+        ordersCriteria.setProjection(Projections.property("o.room.id"));
 
-        Query query = sessionFactory.getCurrentSession().createSQLQuery(sqlQuery).addEntity(Category.class)
-                .setDate(0, startDate).setDate(1, endDate).setDate(2, startDate).setDate(3, endDate)
-                .setDate(4, startDate).setDate(5, endDate);
+        DetachedCriteria roomsCriteria = DetachedCriteria.forClass(Room.class, "r").
+                add(Restrictions.and(Restrictions.eqProperty("r.category.id", "c.id"),
+                        Subqueries.propertyNotIn("r.id", ordersCriteria)));
 
-        List<Category> categories = query.list();
+        Criteria mainCriteria = sessionFactory.getCurrentSession().createCriteria(Category.class, "c");
+        mainCriteria.add(Subqueries.exists(roomsCriteria.setProjection(Projections.property("r.id"))));
+
+        List<Category> categories = mainCriteria.list();
         return categories;
     }
 }
