@@ -34,4 +34,10 @@
        <bean id="clientDao" class="com.hotel.dao.ClientDao" />
 
        <bean id="categoryDao" class="com.hotel.dao.CategoryDao" />
+
+       <bean id="roomDao" class="com.hotel.dao.RoomDao" />
+
+       <bean id="orderDao" class="com.hotel.dao.OrderDao" />
+
+       <bean id="statusDao" class="com.hotel.dao.StatusDao" />
 </beans>

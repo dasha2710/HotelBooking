@@ -35,6 +35,13 @@ public class Status implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "status")
     private Collection<Order> ordersCollection;
 
+    public final static String CANCELLED_TYPE = "CANCELLED";
+    public final static String BOOKED_TYPE = "BOOKED";
+    public final static String CLOSED_TYPE = "CLOSED";
+    public final static String SETTLED_TYPE = "SETTLED";
+
+    public Status() {}
+
     public Status(String type) {
         this.type = type;
     }

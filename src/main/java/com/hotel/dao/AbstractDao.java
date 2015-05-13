@@ -23,4 +23,9 @@ public abstract class AbstractDao<T> {
     public void delete(T object) {
         sessionFactory.getCurrentSession().delete(object);
     }
+
+    @Transactional
+    public T findById(Class<T> clazz, Integer id) {
+        return (T) sessionFactory.getCurrentSession().get(clazz, id);
+    }
 }
