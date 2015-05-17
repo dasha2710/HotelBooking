@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -37,6 +38,8 @@ public class Room implements Serializable {
     private Category category;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "room")
     private Collection<Order> ordersCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "room", fetch = FetchType.LAZY)
+    private List<Booking> bookingList;
 
     public Room() {}
 
@@ -75,6 +78,15 @@ public class Room implements Serializable {
 
     public void setOrdersCollection(Collection<Order> ordersCollection) {
         this.ordersCollection = ordersCollection;
+    }
+
+    @XmlTransient
+    public List<Booking> getBookingList() {
+        return bookingList;
+    }
+
+    public void setBookingList(List<Booking> bookingList) {
+        this.bookingList = bookingList;
     }
 
     @Override
