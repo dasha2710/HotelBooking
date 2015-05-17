@@ -64,7 +64,7 @@ public class RegisterController {
             model.addAttribute("client", savedUser);
             User user = savedUser.getUser();
             autoLogin(user.getLogin(), user.getMatchingPassword(), request);
-            return "apartments";
+            return "redirect:/apartments";
         }
         return "register";
     }

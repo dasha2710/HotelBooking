@@ -125,7 +125,21 @@ public class Category implements Serializable, JSONAware {
     }
 
     public Picture getMainPicture() {
-        return mainPicture;
+        if (mainPicture != null ) {
+            return mainPicture;
+        }
+        try {
+            Picture mainPicture = Iterables.find(picturesCollection, new Predicate<Picture>() {
+                @Override
+                public boolean apply(Picture picture) {
+                    return picture.isCentral();
+                }
+            });
+            this.mainPicture = mainPicture;
+            return mainPicture;
+        } catch (NoSuchElementException e) {
+            return null;
+        }
     }
 
     public void setMainPicture(Picture mainPicture) {
@@ -163,19 +177,5 @@ public class Category implements Serializable, JSONAware {
         obj.put("price", price);
         obj.put("mainPicture", mainPicture);
         return obj.toString();
-    }
-
-    public void setMainPicture() {
-        try {
-            Picture mainPicture = Iterables.find(picturesCollection, new Predicate<Picture>() {
-                @Override
-                public boolean apply(Picture picture) {
-                    return picture.isCentral();
-                }
-            });
-            setMainPicture(mainPicture);
-        } catch (NoSuchElementException e) {
-        }
-
     }
 }

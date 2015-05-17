@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -57,8 +58,8 @@ public class Client implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "passport")
     private String passport;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
-    private Collection<Order> ordersCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client", fetch = FetchType.EAGER)
+    private List<Order> ordersCollection;
     @OneToOne(optional=false)
     @JoinColumn(name="user_id")
     private User user;
@@ -131,11 +132,11 @@ public class Client implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Order> getOrdersCollection() {
+    public List<Order> getOrdersCollection() {
         return ordersCollection;
     }
 
-    public void setOrdersCollection(Collection<Order> ordersCollection) {
+    public void setOrdersCollection(List<Order> ordersCollection) {
         this.ordersCollection = ordersCollection;
     }
 

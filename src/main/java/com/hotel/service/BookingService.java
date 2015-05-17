@@ -9,14 +9,11 @@ import com.hotel.domain.Order;
 import com.hotel.domain.Room;
 import com.hotel.domain.Status;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by Admin on 30.04.2015.
@@ -43,7 +40,7 @@ public class BookingService {
     public List<Category> findByDates(Date startDate, Date endDate) {
         List<Category> categories = categoryDao.findByDates(startDate, endDate);
         for (Category category : categories) {
-            category.setMainPicture();
+            category.getMainPicture();
         }
         return categories;
     }
@@ -66,6 +63,8 @@ public class BookingService {
 
             order.setRoom(rooms.get(0));
             order.setStatus(statusDao.findByType(Status.BOOKED_TYPE));
+
+            order.setTotalPrice();
 
             order.setClient(userService.getCurrentUser().getClient());
             orderDao.save(order);

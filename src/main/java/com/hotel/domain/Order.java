@@ -50,6 +50,8 @@ public class Order implements Serializable {
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Client client;
+    @Column(name = "total_price")
+    private int totalPrice;
 
     public Order() {}
 
@@ -122,6 +124,15 @@ public class Order implements Serializable {
         this.client = client;
     }
 
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice() {
+        long daysNumber =  (dateCheckOut.getTime() - dateCheckIn.getTime()) / (24 * 60 * 60 * 1000);
+        this.totalPrice = (int) (daysNumber * room.getCategory().getPrice());
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -143,5 +154,5 @@ public class Order implements Serializable {
     public String toString() {
         return "com.hotel.domain.Orders[ id=" + id + " ]";
     }
-    
+
 }
