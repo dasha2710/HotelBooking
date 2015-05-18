@@ -99,7 +99,6 @@
 
       var th = '<tr><th class="picture">Photo</th><th class="type">Apartment type</th><th class="capacity">Capacity (people)</th>'
               + '<th class="description">Description</th><th class="price">Price ($/24h)</th><th></th></tr>';
-
       if (categories.length > 0) {
         table.append(th);
         $.each(categories, function(i, category) {

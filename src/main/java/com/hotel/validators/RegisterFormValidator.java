@@ -13,7 +13,7 @@ import org.springframework.validation.Validator;
  */
 public class RegisterFormValidator implements Validator {
 
-    private static final String PHONE_PATTERN = "^$|^[0-9]{6,20}$";
+    private static final String PHONE_PATTERN = "^[0-9]{6,20}$";
     private static final String EMAIL_PATTERN = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
 
     @Autowired
