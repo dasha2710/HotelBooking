@@ -19,7 +19,8 @@ import java.util.List;
 public class CategoryDao extends AbstractDao<Category>{
 
     public List<Category> findAll() {
-        return sessionFactory.getCurrentSession().createCriteria(Category.class).list();
+        return sessionFactory.getCurrentSession().createCriteria(Category.class)
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
     }
 
     @Transactional

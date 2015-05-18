@@ -32,5 +32,11 @@ public class ApartmentService {
         return categories;
     }
 
+    @Transactional
+    public Category getDetailsCategory(Integer id) {
+        Category category = categoryDao.findById(Category.class, id);
+        category.setMainPicture();
+        return  category;
+    }
 
 }

@@ -25,8 +25,10 @@ public class RoomDao extends AbstractDao<Room> {
                 Restrictions.ge("o.dateCheckOut", dateCheckIn), Restrictions.le("o.dateCheckOut", dateCheckOut));
         Criterion innerDates = Restrictions.and(
                 Restrictions.le("o.dateCheckIn", dateCheckIn), Restrictions.ge("o.dateCheckOut", dateCheckOut));
-        ordersCriteria.add(Restrictions.or(Restrictions.or(startDateMiddle, endDateMiddle), innerDates))
-                .add(Restrictions.ne("s.type", Status.CANCELLED_TYPE));
+        Criterion outerDates = Restrictions.and(
+                Restrictions.ge("o.dateCheckIn", dateCheckIn), Restrictions.le("o.dateCheckOut", dateCheckOut));
+        ordersCriteria.add(Restrictions.and(Restrictions.or(Restrictions.or(Restrictions.or(startDateMiddle, endDateMiddle),
+                innerDates), outerDates), Restrictions.ne("s.type", Status.CANCELLED_TYPE)));
         ordersCriteria.setProjection(Projections.property("o.room.id"));
 
         Criteria mainCriteria = sessionFactory.getCurrentSession().createCriteria(Room.class, "r").

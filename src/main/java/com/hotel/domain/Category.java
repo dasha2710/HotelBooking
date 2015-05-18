@@ -47,6 +47,9 @@ public class Category implements Serializable, JSONAware {
     @Size(max = 1000)
     @Column(name = "description")
     private String description;
+    @Size(max = 5000)
+    @Column(name = "details")
+    private String details;
     @Basic(optional = false)
     @NotNull
     @Column(name = "price")
@@ -97,6 +100,10 @@ public class Category implements Serializable, JSONAware {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getDetails() { return details; }
+
+    public void setDetails(String details) { this.details = details; }
 
     public int getPrice() {
         return price;

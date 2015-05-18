@@ -28,12 +28,12 @@
         </tr>
         <c:forEach var="category" items="${apartments}">
             <tr>
-                <td><img src="${category.mainPicture.path}"/></td>
+                <td><img width="100%" src="${category.mainPicture.path}"/></td>
                 <td>${category.type}</td>
                 <td>${category.capacity}</td>
                 <td>${category.description}</td>
                 <td>${category.price}</td>
-                <td><a href="#">More...</a></td>
+                <td><a href="/apartments/${category.id}">More...</a></td>
             </tr>
         </c:forEach>
     </table>
