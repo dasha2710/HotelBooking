@@ -25,7 +25,7 @@ public class ApartmentService {
     @Transactional
     public Category getDetailsCategory(Integer id) {
         Category category = categoryDao.findById(Category.class, id);
-        category.setMainPicture();
+        category.getMainPicture();
         return  category;
     }
 

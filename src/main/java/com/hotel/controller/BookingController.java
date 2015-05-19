@@ -51,6 +51,11 @@ public class BookingController {
             return response.toString();
         }
 
+        if (dateCheckIn.compareTo(dateCheckOut) == 0) {
+            response.put("error", messageSource.getMessage("start.end.dates.equals", null, Locale.getDefault()));
+            return response.toString();
+        }
+
         Date now = new Date(System.currentTimeMillis());
         if (dateCheckIn.compareTo(now) <= 0) {
             response.put("error", messageSource.getMessage("book.past.date", null, Locale.getDefault()));

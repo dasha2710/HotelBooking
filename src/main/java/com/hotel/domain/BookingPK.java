@@ -18,9 +18,9 @@ import java.util.Date;
 public class BookingPK implements Serializable {
     @Basic(optional = false)
     @NotNull
-    @Column(name = "start_date")
+    @Column(name = "day_date")
     @Temporal(TemporalType.DATE)
-    private Date startDate;
+    private Date dayDate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "room_id")
@@ -29,17 +29,17 @@ public class BookingPK implements Serializable {
     public BookingPK() {
     }
 
-    public BookingPK(Date startDate, int roomId) {
-        this.startDate = startDate;
+    public BookingPK(Date dayDate, int roomId) {
+        this.dayDate = dayDate;
         this.roomId = roomId;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Date getdayDate() {
+        return dayDate;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setdayDate(Date dayDate) {
+        this.dayDate = dayDate;
     }
 
     public int getRoomId() {
@@ -53,7 +53,7 @@ public class BookingPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (startDate != null ? startDate.hashCode() : 0);
+        hash += (dayDate != null ? dayDate.hashCode() : 0);
         hash += (int) roomId;
         return hash;
     }
@@ -65,7 +65,7 @@ public class BookingPK implements Serializable {
             return false;
         }
         BookingPK other = (BookingPK) object;
-        if ((this.startDate == null && other.startDate != null) || (this.startDate != null && !this.startDate.equals(other.startDate))) {
+        if ((this.dayDate == null && other.dayDate != null) || (this.dayDate != null && !this.dayDate.equals(other.dayDate))) {
             return false;
         }
         if (this.roomId != other.roomId) {
@@ -76,7 +76,7 @@ public class BookingPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.hotel.domain.BookingPK[ startDate=" + startDate + ", roomId=" + roomId + " ]";
+        return "com.hotel.domain.BookingPK[ dayDate=" + dayDate + ", roomId=" + roomId + " ]";
     }
 
 }

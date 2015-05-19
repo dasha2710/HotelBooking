@@ -51,7 +51,7 @@ public class Order implements Serializable {
     @ManyToOne(optional = false)
     private Client client;
     @Column(name = "total_price")
-    private int totalPrice;
+    private Integer totalPrice;
 
     public Order() {}
 
@@ -124,7 +124,7 @@ public class Order implements Serializable {
         this.client = client;
     }
 
-    public int getTotalPrice() {
+    public Integer getTotalPrice() {
         return totalPrice;
     }
 

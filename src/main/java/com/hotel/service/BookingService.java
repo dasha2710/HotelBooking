@@ -1,18 +1,13 @@
 package com.hotel.service;
 
-import com.hotel.dao.CategoryDao;
-import com.hotel.dao.OrderDao;
-import com.hotel.dao.RoomDao;
-import com.hotel.dao.StatusDao;
-import com.hotel.domain.Category;
-import com.hotel.domain.Order;
-import com.hotel.domain.Room;
-import com.hotel.domain.Status;
+import com.hotel.dao.*;
+import com.hotel.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -36,6 +31,9 @@ public class BookingService {
     @Autowired
     private StatusDao statusDao;
 
+    @Autowired
+    private BookingDao bookingDao;
+
     @Transactional
     public List<Category> findByDates(Date startDate, Date endDate) {
         List<Category> categories = categoryDao.findByDates(startDate, endDate);
@@ -43,6 +41,13 @@ public class BookingService {
             category.getMainPicture();
         }
         return categories;
+    }
+
+    private Date getNext(Date current) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(current);
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        return new Date(calendar.getTimeInMillis());
     }
 
     @Transactional
@@ -53,6 +58,7 @@ public class BookingService {
         Date now = new Date(System.currentTimeMillis());
 
         if (!rooms.isEmpty()) {
+            Room room = rooms.get(0);
 
             Order order = new Order();
             order.setDateCheckIn(startDate);
@@ -61,13 +67,20 @@ public class BookingService {
             order.setDateCreated(now);
             order.setDateLastModified(now);
 
-            order.setRoom(rooms.get(0));
+            order.setRoom(room);
             order.setStatus(statusDao.findByType(Status.BOOKED_TYPE));
 
             order.setTotalPrice();
 
             order.setClient(userService.getCurrentUser().getClient());
             orderDao.save(order);
+
+            for (Date d = startDate; d.compareTo(endDate) < 0; d = getNext(d)) {
+                Booking booking = new Booking();
+                booking.setBookingPK(new BookingPK(d, room.getId()));
+
+                bookingDao.save(booking);
+            }
             return true;
         }
 
