@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -62,10 +63,12 @@ public class BookingService {
         while (!roomBooked) {
             if (!rooms.isEmpty()) {
                 Room room = rooms.get(0);
+                List<Booking> bookings = new ArrayList<>();
                 try {
                     for (Date d = startDate; d.compareTo(endDate) < 0; d = getNext(d)) {
                         Booking booking = new Booking(new BookingPK(d, room.getId()));
                         bookingDao.save(booking);
+                        bookings.add(booking);
                         roomBooked = true;
                     }
                 } catch (ConstraintViolationException ex) {
@@ -86,6 +89,10 @@ public class BookingService {
 
                 order.setClient(userService.getCurrentUser().getClient());
                 orderDao.save(order);
+                for (Booking booking: bookings) {
+                    booking.setOrder(order);
+                    bookingDao.save(booking);
+                }
 
                 return true;
             } else {
@@ -93,5 +100,18 @@ public class BookingService {
             }
         }
         return false;
+    }
+
+    @Transactional
+    public Order cancelOrder(int orderId) {
+        Order order = orderDao.findById(Order.class, orderId);
+        order.setStatus(statusDao.findByType(Status.CANCELLED_TYPE));
+        List<Booking> bookings = order.getBookingList();
+        for (Booking booking: bookings) {
+            bookingDao.delete(booking);
+        }
+        order.setBookingList(null);
+        orderDao.save(order);
+        return order;
     }
 }

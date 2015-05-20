@@ -8,8 +8,10 @@ package com.hotel.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -52,6 +54,8 @@ public class Order implements Serializable {
     private Client client;
     @Column(name = "total_price")
     private Integer totalPrice;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.LAZY)
+    private List<Booking> bookingList;
 
     public Order() {}
 
@@ -132,6 +136,16 @@ public class Order implements Serializable {
         long daysNumber =  (dateCheckOut.getTime() - dateCheckIn.getTime()) / (24 * 60 * 60 * 1000);
         this.totalPrice = (int) (daysNumber * room.getCategory().getPrice());
     }
+
+    @XmlTransient
+    public List<Booking> getBookingList() {
+        return bookingList;
+    }
+
+    public void setBookingList(List<Booking> bookingList) {
+        this.bookingList = bookingList;
+    }
+
 
     @Override
     public int hashCode() {

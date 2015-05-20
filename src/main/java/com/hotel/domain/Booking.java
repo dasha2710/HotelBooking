@@ -24,6 +24,9 @@ public class Booking implements Serializable {
     @JoinColumn(name = "room_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Room room;
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Order order;
 
     public Booking() {
     }
@@ -50,6 +53,14 @@ public class Booking implements Serializable {
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override
