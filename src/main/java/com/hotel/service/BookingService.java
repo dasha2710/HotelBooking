@@ -76,9 +76,7 @@ public class BookingService {
             orderDao.save(order);
 
             for (Date d = startDate; d.compareTo(endDate) < 0; d = getNext(d)) {
-                Booking booking = new Booking();
-                booking.setBookingPK(new BookingPK(d, room.getId()));
-
+                Booking booking = new Booking(new BookingPK(d, room.getId()));
                 bookingDao.save(booking);
             }
             return true;
