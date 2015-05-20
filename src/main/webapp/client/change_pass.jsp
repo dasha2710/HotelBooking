@@ -10,7 +10,7 @@
 </head>
 <body>
 <header>
-  <jsp:include page="header.jsp"/>
+  <jsp:include page="../header.jsp"/>
 </header>
 
 <form:form action="/update_pass" method="post">

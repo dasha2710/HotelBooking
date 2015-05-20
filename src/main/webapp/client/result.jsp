@@ -14,7 +14,7 @@
 </head>
 <body>
 <header>
-  <jsp:include page="header.jsp"/>
+  <jsp:include page="../header.jsp"/>
 </header>
 <h1><c:out value="${result_message}"/></h1>
 </body>

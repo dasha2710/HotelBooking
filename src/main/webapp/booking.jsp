@@ -22,7 +22,7 @@
   <jsp:include page="header.jsp"/>
 </header>
 
-<form:form action="/result" method="post">
+<form:form action="/client/result" method="post">
   <div align="center">
     <table><tr>
       <td>Date check in:</td>

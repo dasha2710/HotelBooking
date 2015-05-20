@@ -2,6 +2,7 @@ package com.hotel.service;
 
 import com.hotel.dao.*;
 import com.hotel.domain.*;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,31 +58,40 @@ public class BookingService {
         List<Room> rooms = roomDao.getFreeForCategoryAndDates(category, startDate, endDate);
         Date now = new Date(System.currentTimeMillis());
 
-        if (!rooms.isEmpty()) {
-            Room room = rooms.get(0);
+        boolean roomBooked = false;
+        while (!roomBooked) {
+            if (!rooms.isEmpty()) {
+                Room room = rooms.get(0);
+                try {
+                    for (Date d = startDate; d.compareTo(endDate) < 0; d = getNext(d)) {
+                        Booking booking = new Booking(new BookingPK(d, room.getId()));
+                        bookingDao.save(booking);
+                        roomBooked = true;
+                    }
+                } catch (ConstraintViolationException ex) {
+                    continue;
+                }
 
-            Order order = new Order();
-            order.setDateCheckIn(startDate);
-            order.setDateCheckOut(endDate);
+                Order order = new Order();
+                order.setDateCheckIn(startDate);
+                order.setDateCheckOut(endDate);
 
-            order.setDateCreated(now);
-            order.setDateLastModified(now);
+                order.setDateCreated(now);
+                order.setDateLastModified(now);
 
-            order.setRoom(room);
-            order.setStatus(statusDao.findByType(Status.BOOKED_TYPE));
+                order.setRoom(room);
+                order.setStatus(statusDao.findByType(Status.BOOKED_TYPE));
 
-            order.setTotalPrice();
+                order.setTotalPrice();
 
-            order.setClient(userService.getCurrentUser().getClient());
-            orderDao.save(order);
+                order.setClient(userService.getCurrentUser().getClient());
+                orderDao.save(order);
 
-            for (Date d = startDate; d.compareTo(endDate) < 0; d = getNext(d)) {
-                Booking booking = new Booking(new BookingPK(d, room.getId()));
-                bookingDao.save(booking);
+                return true;
+            } else {
+                return false;
             }
-            return true;
         }
-
         return false;
     }
 }

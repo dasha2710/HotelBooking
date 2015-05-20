@@ -24,11 +24,11 @@ public class PersonalOfficeController {
     @Autowired
     private MessageSource messageSource;
 
-    @RequestMapping("/office")
+    @RequestMapping("/client/office")
     public String redirectToPersonalOffice(Model model, Principal principal) {
         User user = service.getCurrentUser();
         model.addAttribute("user", user);
-        return "personal_office";
+        return "client/personal_office";
     }
 
     @RequestMapping(value = "/update_pass", method = RequestMethod.POST)
@@ -37,10 +37,10 @@ public class PersonalOfficeController {
         User user = service.getCurrentUser();
 
         if (service.updatePassword(user, oldPass, newPass)) {
-            return new ModelAndView("change_pass", "result_message",
+            return new ModelAndView("client/change_pass", "result_message",
                                     messageSource.getMessage("password.changed.successfully", null, Locale.getDefault()));
         } else {
-            return new ModelAndView("change_pass", "result_message",
+            return new ModelAndView("client/change_pass", "result_message",
                                     messageSource.getMessage("incorrect.password", null, Locale.getDefault()));
         }
     }

@@ -14,10 +14,10 @@
 </head>
 <body>
 <header>
-    <jsp:include page="header.jsp"/>
+    <jsp:include page="../header.jsp"/>
 </header>
 <div align="right">
-    <a href="change_pass.jsp">Change password</a>
+    <a href="/client/change_pass.jsp">Change password</a>
 </div>
 <div align="center">
     <h1>Hi, ${user.client.name} ${user.client.surname}! There is all orders you have:</h1>
@@ -33,7 +33,7 @@
         <c:forEach var="order" items="${user.client.ordersCollection}">
             <tr>
                 <td>${order.dateCheckIn} - ${order.dateCheckOut}</td>
-                <td><img src="${order.room.category.mainPicture.path}"/></td>
+                <td><img width="100%" src="${order.room.category.mainPicture.path}"/></td>
                 <td>${order.room.category.type}</td>
                 <td>${order.room.category.description}</td>
                 <td>${order.totalPrice}</td>

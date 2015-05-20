@@ -68,7 +68,7 @@ public class BookingController {
         return response.toString();
     }
 
-    @RequestMapping(value = "/result", method = RequestMethod.POST)
+    @RequestMapping(value = "client/result", method = RequestMethod.POST)
     public ModelAndView makeBooking(@RequestParam(value = "date_check_in", required = true)
                                         @DateTimeFormat(pattern = "MM/dd/yyyy") java.util.Date date1,
                                     @RequestParam(value = "date_check_out", required = true)
@@ -78,9 +78,9 @@ public class BookingController {
         Date dateCheckOut = new Date(date2.getTime());
 
         if (bookingService.makeOrder(categoryId, dateCheckIn, dateCheckOut)) {
-            return new ModelAndView("result", "result_message", messageSource.getMessage("book.success", null, Locale.getDefault()));
+            return new ModelAndView("client/result", "result_message", messageSource.getMessage("book.success", null, Locale.getDefault()));
         } else {
-            return new ModelAndView("result", "result_message", messageSource.getMessage("book.fail.category.unavailable",
+            return new ModelAndView("client/result", "result_message", messageSource.getMessage("book.fail.category.unavailable",
                     null, Locale.getDefault()));
         }
     }
