@@ -16,6 +16,9 @@
 <header>
     <jsp:include page="header.jsp"/>
 </header>
+<div align="right">
+    <a href="change_pass.jsp">Change password</a>
+</div>
 <div align="center">
     <h1>Hi, ${user.client.name} ${user.client.surname}! There is all orders you have:</h1>
     <table>

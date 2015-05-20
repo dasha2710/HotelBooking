@@ -46,10 +46,22 @@ public class UserService {
         String newPass = PasswordGenerator.generate();
         if (EmailSender.send(user.getClient().getEmail(), "New password is " + newPass)) {
             user.setPassword(passwordEncoder.encodePassword(newPass, user.getLogin()));
+            userDao.save(user);
             return true;
         } else {
             return false;
         }
+    }
+
+    @Transactional
+    public boolean updatePassword(User user, String oldPass, String newPass) {
+        String login = user.getLogin();
+        if (passwordEncoder.encodePassword(oldPass, login).equals(user.getPassword())) {
+            user.setPassword(passwordEncoder.encodePassword(newPass, login));
+            userDao.save(user);
+            return true;
+        }
+        return false;
     }
 
     @Transactional
