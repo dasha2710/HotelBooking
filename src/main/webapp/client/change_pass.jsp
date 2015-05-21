@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="../resources/css/styles.css">
 <html>
 <head>
-  <title></title>
+  <title>Changing password</title>
   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet"
         type="text/css"/>
 </head>

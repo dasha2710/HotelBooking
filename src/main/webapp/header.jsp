@@ -12,17 +12,20 @@
     <title></title>
 </head>
 <body>
-    <div id="header">
-        <div align="right">
-            <sec:authorize access="isAnonymous()">
-                <a href="login"><input type="submit" value="Login" ></a>
-                <a href="register"><input type="submit" value="Register"></a>
-            </sec:authorize>
-            <sec:authorize access="hasRole('CLIENT')">
-                <a href="logout"><input type="submit" value="Log out"></a>
-                <a href="/client/office"><input type="submit" value="Personal office"></a>
-            </sec:authorize>
-        </div>
+<div id="header">
+    <div align="right">
+        <sec:authorize access="isAnonymous()">
+            <a href="login"><input type="submit" value="Login"></a>
+            <a href="register"><input type="submit" value="Register"></a>
+        </sec:authorize>
+        <sec:authorize access="isAuthenticated()">
+            <a href="logout"><input type="submit" value="Log out"></a>
+        </sec:authorize>
+        <sec:authorize access="hasRole('CLIENT')">
+            <a href="/client/office"><input type="submit" value="Personal office"></a>
+        </sec:authorize>
+    </div>
+    <sec:authorize access="!hasRole('ADMIN')">
         <div align="center" id="links">
             <a href="/index">About us</a>
             <a href="/apartments">Rooms</a>
@@ -30,6 +33,7 @@
             <a href="#">Comments</a>
             <a href="/contacts">Contacts</a>
         </div>
-    </div>
+    </sec:authorize>
+</div>
 </body>
 </html>

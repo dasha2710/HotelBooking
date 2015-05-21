@@ -39,6 +39,13 @@ public class UserService {
         clientDao.save(client);
         return client;
     }
+    @Transactional
+    public void saveAdmin(User user) {
+        user.setRole(Role.ADMIN);
+        user.setPassword(passwordEncoder.encodePassword(user.getPassword(), user.getLogin()));
+        user.setDateRegistered(new Date());
+        userDao.save(user);
+    }
 
     @Transactional
     public boolean updatePassword(String login) {
