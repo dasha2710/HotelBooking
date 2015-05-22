@@ -8,6 +8,9 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 /**
  * Created by Daryna_Ragimova on 4/17/2015.
  */
@@ -33,6 +36,9 @@ public class RegisterFormValidator implements Validator {
         if(!client.getEmail().matches(EMAIL_PATTERN)) {
             errors.rejectValue("email","invalid.email");
         }
+        if (client.getBirthday() != null && client.getBirthday().after(getDateYearsAgo(18))) {
+            errors.rejectValue("birthday", "invalid.birthday");
+        }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passport","empty.passport");
         User user = client.getUser();
         if (user != null) {
@@ -49,5 +55,12 @@ public class RegisterFormValidator implements Validator {
             }
         }
 
+    }
+
+    private Date getDateYearsAgo(int n) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new java.util.Date());
+        calendar.add(Calendar.DAY_OF_YEAR, -n);
+        return new Date(calendar.getTimeInMillis());
     }
 }
