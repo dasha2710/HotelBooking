@@ -34,17 +34,19 @@ public class RegisterFormValidator implements Validator {
             errors.rejectValue("email","invalid.email");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passport","empty.passport");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "user.login", "empty.login");
         User user = client.getUser();
-        if (!userDao.checkUserNotExists(user.getLogin())) {
-            errors.rejectValue("user.login", "existed.login");
-        }
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "user.password", "empty.password");
-        if (user.getPassword().length() > 0 && user.getPassword().length() < 6) {
-            errors.rejectValue("user.password", "invalid.password.short");
-        }
-        if (user.getMatchingPassword().isEmpty() || !user.getPassword().equals(user.getMatchingPassword())) {
-            errors.rejectValue("user.matchingPassword", "invalid.passwordConfDiff");
+        if (user != null) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "user.login", "empty.login");
+            if (!userDao.checkUserNotExists(user.getLogin())) {
+                errors.rejectValue("user.login", "existed.login");
+            }
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "user.password", "empty.password");
+            if (user.getPassword().length() > 0 && user.getPassword().length() < 6) {
+                errors.rejectValue("user.password", "invalid.password.short");
+            }
+            if (user.getMatchingPassword().isEmpty() || !user.getPassword().equals(user.getMatchingPassword())) {
+                errors.rejectValue("user.matchingPassword", "invalid.passwordConfDiff");
+            }
         }
 
     }

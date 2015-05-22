@@ -34,6 +34,13 @@
             <a href="/contacts">Contacts</a>
         </div>
     </sec:authorize>
+    <sec:authorize access="hasRole('ADMIN')">
+        <div align="center" id="links">
+            <a href="/admin/orders">View orders</a>
+            <a href="/admin/add_client">Create client</a>
+            <a href="/booking">Create order</a>
+        </div>
+    </sec:authorize>
 </div>
 </body>
 </html>

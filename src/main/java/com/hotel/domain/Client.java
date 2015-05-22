@@ -22,7 +22,7 @@ import java.util.List;
 @Entity
 @Table(name = "clients")
 @XmlRootElement
-public class Client implements Serializable {
+public class Client implements Serializable, Comparable<Client> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -60,7 +60,7 @@ public class Client implements Serializable {
     private String passport;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "client", fetch = FetchType.EAGER)
     private List<Order> ordersCollection;
-    @OneToOne(optional=false)
+    @OneToOne
     @JoinColumn(name="user_id")
     private User user;
 
@@ -167,7 +167,11 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return "com.hotel.domain.Clients[ id=" + id + " ]";
+        return surname + " " + name;
     }
-    
+
+    @Override
+    public int compareTo(Client o) {
+        return toString().compareTo(o.toString());
+    }
 }

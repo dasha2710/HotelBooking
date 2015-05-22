@@ -28,6 +28,9 @@ public class BookingService {
     private RoomDao roomDao;
 
     @Autowired
+    private ClientDao clientDao;
+
+    @Autowired
     private OrderDao orderDao;
 
     @Autowired
@@ -54,6 +57,16 @@ public class BookingService {
 
     @Transactional
     public boolean makeOrder(Integer categoryId, Date startDate, Date endDate) {
+        return createAndSaveOrder(categoryId, startDate, endDate, userService.getCurrentUser().getClient());
+    }
+
+    @Transactional
+    public boolean makeOrder(Integer categoryId, Date startDate, Date endDate, String clientName) {
+        Client client = clientDao.findByNameAndSurname(clientName);
+        return createAndSaveOrder(categoryId, startDate, endDate, client);
+    }
+
+    private boolean createAndSaveOrder(Integer categoryId, Date startDate, Date endDate, Client client) {
         Category category = categoryDao.findById(Category.class, categoryId);
 
         List<Room> rooms = roomDao.getFreeForCategoryAndDates(category, startDate, endDate);
@@ -87,7 +100,7 @@ public class BookingService {
 
                 order.setTotalPrice();
 
-                order.setClient(userService.getCurrentUser().getClient());
+                order.setClient(client);
                 orderDao.save(order);
                 for (Booking booking: bookings) {
                     booking.setOrder(order);
