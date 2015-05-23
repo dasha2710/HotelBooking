@@ -49,7 +49,7 @@
 
 
 <sec:authorize access="hasRole('ADMIN')">
-    <form:form action="/admin/add_order" method="post">
+    <form:form action="/admin/result" method="post">
         <div align="center">
             <table>
                 <tr>

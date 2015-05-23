@@ -1,5 +1,6 @@
 package com.hotel.controller;
 
+import com.hotel.dao.ClientDao;
 import com.hotel.domain.Client;
 import com.hotel.domain.User;
 import com.hotel.service.BookingService;
@@ -22,7 +23,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
+
+import static java.util.Collections.sort;
 
 /**
  * Created by Dasha on 21.05.2015.
@@ -35,6 +39,8 @@ public class AdminController {
     private BookingService bookingService;
     @Autowired
     private RegisterFormValidator registerFormValidator;
+    @Autowired
+    private ClientDao clientDao;
     @Autowired
     private MessageSource messageSource;
 
@@ -51,6 +57,15 @@ public class AdminController {
         User user = userService.getCurrentUser();
         model.addAttribute("user", user);
         return "admin/orders_view";
+    }
+
+    @RequestMapping(value = "/admin/add_order", method = RequestMethod.GET)
+    public ModelAndView getAvailableRooms() {
+        ModelAndView modelAndView = new ModelAndView("booking");
+        List<Client> clients = clientDao.findAll();
+        sort(clients);
+        modelAndView.addObject("clients", clients);
+        return modelAndView;
     }
 
     @RequestMapping(value = "/admin/add_client", method = RequestMethod.GET)
@@ -70,7 +85,7 @@ public class AdminController {
         return new ModelAndView("/admin/add_client");
     }
 
-    @RequestMapping(value = "/admin/add_order", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/result", method = RequestMethod.POST)
     public ModelAndView addOrder(@RequestParam(value = "client", required = true) String clientName,
                            @RequestParam(value = "date_check_in", required = true)
                            @DateTimeFormat(pattern = "MM/dd/yyyy") java.util.Date date1,
