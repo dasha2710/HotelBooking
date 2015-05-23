@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * Created by Dasha on 14.04.2015.
@@ -27,5 +29,10 @@ public abstract class AbstractDao<T> {
     @Transactional
     public T findById(Class<T> clazz, Integer id) {
         return (T) sessionFactory.getCurrentSession().get(clazz, id);
+    }
+
+    @Transactional
+    public List<T> findAll(Class<T> clazz) {
+        return sessionFactory.getCurrentSession().createCriteria(clazz).list();
     }
 }

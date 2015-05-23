@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 /**
  * Created by Dasha on 21.05.2015.
  */
-@Ignore("test is used for adding admin to db")
+//@Ignore("test is used for adding admin to db")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/contexts/security-context.xml",
                                    "/contexts/service-context.xml",

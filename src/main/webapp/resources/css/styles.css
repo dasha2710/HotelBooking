@@ -2,7 +2,7 @@ table{
     table-layout:fixed;
 }
 
-th.capacity, th.price {
+th.capacity, th.price, th.room, th.more {
     width: 7%;
 }
 
@@ -10,7 +10,7 @@ th.description{
     width: 50%;
 }
 
-th.type{
+th.type, th.client, th.date_check_in_out, th.status {
     width: 10%;
 }
 

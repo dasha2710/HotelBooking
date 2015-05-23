@@ -5,11 +5,15 @@
  */
 package com.hotel.domain;
 
+import org.json.simple.JSONAware;
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +24,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @XmlRootElement
-public class Order implements Serializable {
+public class Order implements Serializable, JSONAware {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -169,4 +173,17 @@ public class Order implements Serializable {
         return "com.hotel.domain.Orders[ id=" + id + " ]";
     }
 
+    public String toJSONString() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", id);
+        obj.put("dateCheckIn", dateCheckIn.toString());
+        obj.put("dateCheckOut", dateCheckOut.toString());
+        obj.put("dateCreated", dateCreated.toString());
+        obj.put("dateLastModified", dateLastModified.toString());
+        obj.put("status", status);
+        obj.put("room", room);
+        obj.put("client", client);
+        obj.put("totalPrice", totalPrice);
+        return obj.toString();
+    }
 }

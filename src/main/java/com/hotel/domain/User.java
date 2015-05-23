@@ -5,6 +5,9 @@
  */
 package com.hotel.domain;
 
+import org.json.simple.JSONAware;
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -21,7 +24,7 @@ import java.util.Date;
 @Entity
 @Table(name = "users")
 @XmlRootElement
-public class User implements Serializable {
+public class User implements Serializable, JSONAware {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -145,5 +148,14 @@ public class User implements Serializable {
     public String toString() {
         return "com.hotel.domain.Users[ id=" + id + " ]";
     }
-    
+
+    public String toJSONString() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", id);
+        obj.put("login", login);
+        obj.put("password", password);
+        obj.put("role", role.toString());
+        obj.put("dateRegistered", dateRegistered.toString());
+        return obj.toJSONString();
+    }
 }

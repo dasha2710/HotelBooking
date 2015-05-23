@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="../resources/css/styles.css">
 <html>
 <head>
-    <title></title>
+    <title>Apartments</title>
 </head>
 <body>
 <header>
@@ -24,7 +24,7 @@
             <th class="capacity">Capacity (people)</th>
             <th class="description">Description</th>
             <th class="price">Price ($/24h)</th>
-            <th></th>
+            <th class="more"></th>
         </tr>
         <c:forEach var="category" items="${apartments}">
             <tr>

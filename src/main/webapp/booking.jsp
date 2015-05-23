@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../resources/css/styles.css">
 <html>
 <head>
-  <title></title>
+  <title>Booking</title>
   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet"
         type="text/css"/>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
@@ -98,7 +98,7 @@
       var table = $('#available_categories');
 
       var th = '<tr><th class="picture">Photo</th><th class="type">Apartment type</th><th class="capacity">Capacity (people)</th>'
-              + '<th class="description">Description</th><th class="price">Price ($/24h)</th><th></th></tr>';
+              + '<th class="description">Description</th><th class="price">Price ($/24h)</th><th class="more"></th></tr>';
       if (categories.length > 0) {
         table.append(th);
         $.each(categories, function(i, category) {
