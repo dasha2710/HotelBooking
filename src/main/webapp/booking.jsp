@@ -12,7 +12,7 @@
 <link rel="stylesheet" type="text/css" href="../resources/css/styles.css">
 <html>
 <head>
-    <title></title>
+    <title>Appartment booking</title>
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet"
           type="text/css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>

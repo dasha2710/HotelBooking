@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="../resources/css/styles.css">
 <html>
 <head>
-  <title></title>
+  <title>Appartment details</title>
 </head>
 <body>
 <header>

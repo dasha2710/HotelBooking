@@ -2,7 +2,10 @@ package com.hotel.controller;
 
 import com.hotel.dao.ClientDao;
 import com.hotel.domain.Client;
+import com.hotel.domain.Order;
+import com.hotel.domain.Status;
 import com.hotel.domain.User;
+import com.hotel.service.AdminService;
 import com.hotel.service.BookingService;
 import com.hotel.service.UserService;
 import com.hotel.validators.RegisterFormValidator;
@@ -15,10 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Date;
@@ -38,6 +38,8 @@ public class AdminController {
     @Autowired
     private BookingService bookingService;
     @Autowired
+    private AdminService adminService;
+    @Autowired
     private RegisterFormValidator registerFormValidator;
     @Autowired
     private ClientDao clientDao;
@@ -56,7 +58,7 @@ public class AdminController {
     public String redirectToPersonalOffice(Model model) {
         User user = userService.getCurrentUser();
         model.addAttribute("user", user);
-        return "admin/orders_view";
+        return "admin/orders";
     }
 
     @RequestMapping(value = "/admin/add_order", method = RequestMethod.GET)
@@ -102,5 +104,41 @@ public class AdminController {
                     null, Locale.getDefault()));
         }
 
+    }
+    @RequestMapping(value = "/admin/orders/{orderId}", method = RequestMethod.GET)
+    public String viewOrder(@PathVariable String orderId, Model model) {
+        Order order = adminService.getOrderById(orderId);
+        model.addAttribute("order", order);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        model.addAttribute("curDate", new java.util.Date(dateFormat.format(new java.util.Date())));
+        model.addAttribute("result_message", "");
+        return "admin/order";
+    }
+
+    @RequestMapping(value = "/admin/orders/{orderId}/check_in")
+    public String checkInClient(@PathVariable String orderId, Model model) {
+        Order order = adminService.changeTypeForOrder(orderId, Status.SETTLED_TYPE);
+        model.addAttribute("order", order);
+        model.addAttribute("result_message", messageSource.getMessage("success.checkIn",
+                null, Locale.getDefault()));
+        return "admin/order";
+    }
+
+    @RequestMapping(value = "/admin/orders/{orderId}/cancel")
+    public String cancelOrder(@PathVariable String orderId, Model model) {
+        Order order = bookingService.cancelOrder(new Integer(orderId));
+        model.addAttribute("order", order);
+        model.addAttribute("result_message", messageSource.getMessage("success.cancel.order",
+                null, Locale.getDefault()));
+        return "admin/order";
+    }
+
+    @RequestMapping(value = "/admin/orders/{orderId}/check_out")
+    public String checkOutClient(@PathVariable String orderId, Model model) {
+        Order order = adminService.checkOutClient(new Integer(orderId));
+        model.addAttribute("order", order);
+        model.addAttribute("result_message", messageSource.getMessage("success.checkOut",
+                null, Locale.getDefault()));
+        return "admin/order";
     }
 }

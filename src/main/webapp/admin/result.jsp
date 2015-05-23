@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="../resources/css/styles.css">
 <html>
 <head>
-    <title></title>
+    <title>Result</title>
 </head>
 <body>
 <header>

@@ -13,6 +13,8 @@
 
        <bean id="bookingService" class="com.hotel.service.BookingService"/>
 
+       <bean id="adminService" class="com.hotel.service.AdminService"/>
+
        <bean id="registerFormValidator" class="com.hotel.validators.RegisterFormValidator"/>
 
        <bean id="forgotPassValidator" class="com.hotel.validators.ForgotPassLoginValidator"/>

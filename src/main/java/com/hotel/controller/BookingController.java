@@ -2,6 +2,7 @@ package com.hotel.controller;
 
 import com.hotel.domain.Category;
 import com.hotel.service.BookingService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -60,7 +61,7 @@ public class BookingController {
         }
 
         Date now = new Date(System.currentTimeMillis());
-        if (dateCheckIn.compareTo(now) <= 0) {
+        if (dateCheckIn.compareTo(now) < 0 && !DateUtils.isSameDay(dateCheckIn, now)) {
             response.put("error", messageSource.getMessage("book.past.date", null, Locale.getDefault()));
             return response.toString();
         }
