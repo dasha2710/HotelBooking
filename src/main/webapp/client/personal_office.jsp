@@ -36,7 +36,8 @@
                     <td>${order.status.type}</td>
                     <c:if test="${order.status.type ne 'CANCELLED'}">
                         <td>
-                            <button type='submit' value="${order.id}" name="order_id">Cancel</button>
+                            <button type='submit' value="${order.id}" name="order_id"
+                                    onclick="return confirm('Are you sure you want to cancel this order?')">Cancel</button>
                         </td>
                     </c:if>
                 </tr>

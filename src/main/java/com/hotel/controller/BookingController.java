@@ -2,12 +2,16 @@ package com.hotel.controller;
 
 import com.hotel.domain.Category;
 import com.hotel.service.BookingService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Date;
@@ -31,9 +35,9 @@ public class BookingController {
         return new ModelAndView("booking");
     }
 
-    @RequestMapping(value = "/booking", method = RequestMethod.POST)
+    @RequestMapping(value = {"/booking", "/admin/add_order"}, method = RequestMethod.POST)
     public @ResponseBody String filter(@RequestParam(value = "date_check_in", required = true)
-                                           @DateTimeFormat(pattern = "MM/dd/yyyy") java.util.Date date1,
+                                       @DateTimeFormat(pattern = "MM/dd/yyyy") java.util.Date date1,
                                        @RequestParam(value = "date_check_out", required = true)
                                        @DateTimeFormat(pattern = "MM/dd/yyyy") java.util.Date date2) {
         JSONObject response = new JSONObject();
@@ -57,7 +61,7 @@ public class BookingController {
         }
 
         Date now = new Date(System.currentTimeMillis());
-        if (dateCheckIn.compareTo(now) <= 0) {
+        if (dateCheckIn.compareTo(now) < 0 && !DateUtils.isSameDay(dateCheckIn, now)) {
             response.put("error", messageSource.getMessage("book.past.date", null, Locale.getDefault()));
             return response.toString();
         }

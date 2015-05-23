@@ -32,10 +32,12 @@ public class UserService {
     @Transactional
     public Client saveClient(Client client) {
         User user = client.getUser();
-        user.setRole(Role.CLIENT);
-        user.setPassword(passwordEncoder.encodePassword(user.getPassword(), user.getLogin()));
-        user.setDateRegistered(new Date());
-        userDao.save(user);
+        if (user != null) {
+            user.setRole(Role.CLIENT);
+            user.setPassword(passwordEncoder.encodePassword(user.getPassword(), user.getLogin()));
+            user.setDateRegistered(new Date());
+            userDao.save(user);
+        }
         clientDao.save(client);
         return client;
     }
