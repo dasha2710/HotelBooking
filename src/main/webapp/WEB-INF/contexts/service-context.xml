@@ -15,7 +15,11 @@
 
        <bean id="adminService" class="com.hotel.service.AdminService"/>
 
+       <bean id="responseService" class="com.hotel.service.ResponseService" />
+
        <bean id="registerFormValidator" class="com.hotel.validators.RegisterFormValidator"/>
 
        <bean id="forgotPassValidator" class="com.hotel.validators.ForgotPassLoginValidator"/>
+
+       <bean id="responseFormValidator" class="com.hotel.validators.ResponseFormValidator" />
 </beans>

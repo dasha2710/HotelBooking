@@ -131,7 +131,7 @@ public class AdminController {
     @RequestMapping(value = "/admin/add_order", method = RequestMethod.GET)
     public ModelAndView getAvailableRooms() {
         ModelAndView modelAndView = new ModelAndView("booking");
-        List<Client> clients = clientDao.findAll();
+        List<Client> clients = adminService.findAllClients();
         sort(clients);
         modelAndView.addObject("clients", clients);
         return modelAndView;

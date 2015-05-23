@@ -25,7 +25,6 @@ public class CategoryDao extends AbstractDao<Category>{
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
     }
 
-    @Transactional
     public List<Category> findByDates(Date dateCheckIn, Date dateCheckOut) {
 
         DetachedCriteria busyRoomsCriteria = DetachedCriteria.forClass(Booking.class, "b")

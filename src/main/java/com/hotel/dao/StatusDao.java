@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class StatusDao extends AbstractDao<Status> {
 
-    @Transactional
     public Status findByType(String type) {
         return (Status) sessionFactory.getCurrentSession().createCriteria(Status.class, "s")
                 .add(Restrictions.eq("s.type", type)).uniqueResult();

@@ -41,6 +41,7 @@ public class UserService {
         clientDao.save(client);
         return client;
     }
+
     @Transactional
     public void saveAdmin(User user) {
         user.setRole(Role.ADMIN);

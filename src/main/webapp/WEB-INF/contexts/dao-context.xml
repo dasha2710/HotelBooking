@@ -44,4 +44,6 @@
        <bean id="statusDao" class="com.hotel.dao.StatusDao" />
 
        <bean id="bookingDao" class="com.hotel.dao.BookingDao" />
+
+       <bean id="responseDao" class="com.hotel.dao.ResponseDao" />
 </beans>

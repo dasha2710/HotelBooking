@@ -30,7 +30,7 @@
             <a href="/index">About us</a>
             <a href="/apartments">Rooms</a>
             <a href="/booking">OnlineBooking</a>
-            <a href="#">Comments</a>
+            <a href="/comments">Comments</a>
             <a href="/contacts">Contacts</a>
         </div>
     </sec:authorize>

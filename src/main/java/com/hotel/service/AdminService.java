@@ -1,9 +1,11 @@
 package com.hotel.service;
 
+import com.hotel.dao.ClientDao;
 import com.hotel.dao.OrderDao;
 import com.hotel.dao.StatusDao;
 import com.hotel.dao.BookingDao;
 import com.hotel.domain.Booking;
+import com.hotel.domain.Client;
 import com.hotel.domain.Order;
 import com.hotel.domain.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class AdminService {
     @Autowired
     private OrderDao orderDao;
 
+    @Autowired
+    private ClientDao clientDao;
+
     @Transactional
     public List<Order> findByDatesAndStatuses(Date startDate, Date endDate, List<Integer> statusIds) {
         List<Status> statuses;
@@ -53,10 +58,17 @@ public class AdminService {
         return statusDao.findAll(Status.class);
     }
 
+    @Transactional
+    public List<Client> findAllClients() {
+        return clientDao.findAll(Client.class);
+    }
+
+    @Transactional
     public Order getOrderById(String id) {
         return orderDao.findById(Order.class, new Integer(id));
     }
 
+    @Transactional
     public Order changeTypeForOrder(String id, String status) {
         Order order = orderDao.findById(Order.class, new Integer(id));
         order.setStatus(statusDao.findByType(status));

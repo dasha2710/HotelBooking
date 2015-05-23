@@ -95,7 +95,7 @@
             filter_by_dates();
         });
 
-        $('button').live('click', function () {
+        $('input[type=submit]').live('click', function () {
             var categoryId = $(this).data('category_id');
             $('#category_id').val(categoryId);
             $(this).parents('form').submit();
@@ -149,7 +149,7 @@
         table.append(th);
         $.each(categories, function(i, category) {
           th = "<tr><td><img width='100%' src='" + category.mainPicture.path + "'/></td><td>" + category.type + "</td><td>" + category.capacity + "</td><td>" + category.description
-          + "</td><td>" + category.price + "</td><td><button type='submit' data-category_id='" + category.id + "'>Book</button></td></tr>";
+          + "</td><td>" + category.price + "</td><td><input type='submit' data-category_id='" + category.id + "' value='Book'></td></tr>";
           table.append(th);
         })
       }

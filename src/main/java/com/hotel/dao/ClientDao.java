@@ -12,12 +12,11 @@ import java.util.List;
  * Created by Dasha on 18.04.2015.
  */
 public class ClientDao extends AbstractDao<Client> {
-    @Transactional
+
     public List<Client> findAll() {
         return sessionFactory.getCurrentSession().createCriteria(Client.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
     }
 
-    @Transactional
     public Client findByNameAndSurname(String surnameAndName) {
         String[] strs = surnameAndName.split(" ");
         Session session = sessionFactory.getCurrentSession();

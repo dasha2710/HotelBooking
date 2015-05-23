@@ -16,22 +16,18 @@ public abstract class AbstractDao<T> {
     @Autowired
     protected SessionFactory sessionFactory;
 
-    @Transactional
     public void save(T object) {
         sessionFactory.getCurrentSession().saveOrUpdate(object);
     }
 
-    @Transactional
     public void delete(T object) {
         sessionFactory.getCurrentSession().delete(object);
     }
 
-    @Transactional
     public T findById(Class<T> clazz, Integer id) {
         return (T) sessionFactory.getCurrentSession().get(clazz, id);
     }
 
-    @Transactional
     public List<T> findAll(Class<T> clazz) {
         return sessionFactory.getCurrentSession().createCriteria(clazz).list();
     }
