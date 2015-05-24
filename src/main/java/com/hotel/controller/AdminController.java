@@ -6,27 +6,16 @@ import com.hotel.domain.Order;
 import com.hotel.domain.Status;
 import com.hotel.domain.User;
 import com.hotel.service.AdminService;
+import com.hotel.service.BookingService;
 import com.hotel.service.UserService;
+import com.hotel.validators.RegisterFormValidator;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.hotel.service.BookingService;
-import com.hotel.validators.RegisterFormValidator;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -35,8 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import static java.util.Collections.sort;
 
@@ -202,10 +193,38 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/orders/{orderId}/check_out")
     public String checkOutClient(@PathVariable String orderId, Model model) {
-        Order order = adminService.checkOutClient(new Integer(orderId));
+        Order order = adminService.checkOutClient(orderId);
         model.addAttribute("order", order);
         model.addAttribute("result_message", messageSource.getMessage("success.checkOut",
                 null, Locale.getDefault()));
+        return "admin/order";
+    }
+
+    @RequestMapping(value = "/admin/orders/{orderId}/prolong", method = RequestMethod.GET)
+    public String showProlongOrederPage(@PathVariable String orderId, Model model) {
+        Order order = adminService.getOrderById(orderId);
+        model.addAttribute("order", order);
+        long daysNumber =  (order.getDateCheckOut().getTime() - new java.util.Date().getTime()) / (24 * 60 * 60 * 1000);
+        model.addAttribute("dayShift", daysNumber + 1);
+        return "admin/prolong";
+    }
+
+    @RequestMapping(value = "/admin/orders/{orderId}/prolong", method = RequestMethod.POST)
+    public String prolongOrder(@PathVariable String orderId,
+                               @RequestParam(value = "new_date_check_out")
+                               @DateTimeFormat(pattern = "MM/dd/yyyy") java.util.Date newDate,
+                               Model model) {
+        Order order = adminService.prolongOrderIfPossible(orderId, newDate);
+        if (order != null) {
+            model.addAttribute("order", order);
+            model.addAttribute("result_message", messageSource.getMessage("success.prolong",
+                    null, Locale.getDefault()));
+        } else {
+            order = adminService.getOrderById(orderId);
+            model.addAttribute("order", order);
+            model.addAttribute("result_message", messageSource.getMessage("failed.prolong",
+                    null, Locale.getDefault()));
+        }
         return "admin/order";
     }
 }

@@ -1,9 +1,13 @@
 package com.hotel.dao;
 
-import com.hotel.domain.*;
-import com.hotel.domain.Order;
+import com.hotel.domain.Booking;
+import com.hotel.domain.Category;
+import com.hotel.domain.Room;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.*;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Subqueries;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
@@ -27,5 +31,13 @@ public class RoomDao extends AbstractDao<Room> {
 
         List<Room> rooms = mainCriteria.list();
         return rooms;
+    }
+
+    public boolean checkRoomIsFreeForDates(Room room, Date dateCheckIn, Date dateCheckOut) {
+        Criteria busyRoomCriteria = sessionFactory.getCurrentSession().createCriteria(Booking.class, "b")
+                .add(Restrictions.ge("b.bookingPK.dayDate", dateCheckIn))
+                .add(Restrictions.lt("b.bookingPK.dayDate", dateCheckOut))
+                .add(Restrictions.eq("b.bookingPK.roomId", room.getId()));
+        return busyRoomCriteria.list().isEmpty();
     }
 }

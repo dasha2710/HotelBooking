@@ -124,6 +124,7 @@ public class BookingService {
             bookingDao.delete(booking);
         }
         order.setBookingList(null);
+        order.setDateLastModified(new java.util.Date());
         orderDao.save(order);
         return order;
     }

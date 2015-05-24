@@ -1,18 +1,14 @@
 package com.hotel.service;
 
-import com.hotel.dao.ClientDao;
-import com.hotel.dao.OrderDao;
-import com.hotel.dao.StatusDao;
-import com.hotel.dao.BookingDao;
-import com.hotel.domain.Booking;
-import com.hotel.domain.Client;
-import com.hotel.domain.Order;
-import com.hotel.domain.Status;
+import com.hotel.dao.*;
+import com.hotel.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.text.SimpleDateFormat;
 
@@ -30,6 +26,9 @@ public class AdminService {
 
     @Autowired
     private OrderDao orderDao;
+
+    @Autowired
+    private RoomDao roomDao;
 
     @Autowired
     private ClientDao clientDao;
@@ -72,12 +71,13 @@ public class AdminService {
     public Order changeTypeForOrder(String id, String status) {
         Order order = orderDao.findById(Order.class, new Integer(id));
         order.setStatus(statusDao.findByType(status));
+        order.setDateLastModified(new java.util.Date());
         orderDao.save(order);
         return order;
     }
 
     @Transactional
-    public Order checkOutClient(Integer orderId) {
+    public Order checkOutClient(String orderId) {
         Order order = orderDao.findById(Order.class, new Integer(orderId));
         Status status = statusDao.findByType(Status.CLOSED_TYPE);
         order.setStatus(status);
@@ -97,7 +97,39 @@ public class AdminService {
             order.setBookingList(bookingsResult);
             order.setTotalPrice();
         }
+        order.setDateLastModified(new java.util.Date());
         orderDao.save(order);
         return order;
+    }
+
+    private Date getNext(Date current) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(current);
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        return new Date(calendar.getTimeInMillis());
+    }
+
+    @Transactional
+    public Order prolongOrderIfPossible(String orderId, java.util.Date newCheckOutDate) {
+        Order order = orderDao.findById(Order.class, new Integer(orderId));
+        Date currentCheckOutDate = new Date(order.getDateCheckOut().getTime());
+        Date newCheckOutDateSql = new Date(newCheckOutDate.getTime());
+        Room room = order.getRoom();
+        if (roomDao.checkRoomIsFreeForDates(room, currentCheckOutDate, newCheckOutDateSql)) {
+            List<Booking> bookings = new ArrayList<>();
+            for (Date d = currentCheckOutDate; d.compareTo(newCheckOutDateSql) < 0; d = getNext(d)) {
+                Booking booking = new Booking(new BookingPK(d, room.getId()));
+                booking.setOrder(order);
+                bookingDao.save(booking);
+                bookings.add(booking);
+            }
+            order.setBookingList(bookings);
+            order.setDateCheckOut(newCheckOutDate);
+            order.setTotalPrice();
+            order.setDateLastModified(new java.util.Date());
+            orderDao.save(order);
+            return order;
+        }
+        return null;
     }
 }
