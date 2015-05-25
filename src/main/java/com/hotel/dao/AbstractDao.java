@@ -1,9 +1,9 @@
 package com.hotel.dao;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,6 +29,6 @@ public abstract class AbstractDao<T> {
     }
 
     public List<T> findAll(Class<T> clazz) {
-        return sessionFactory.getCurrentSession().createCriteria(clazz).list();
+        return sessionFactory.getCurrentSession().createCriteria(clazz).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
     }
 }
