@@ -50,6 +50,6 @@ public class LoginController {
                 result.rejectValue("login", "pass.sending.failed");
             }
         }
-        return "redirect:/forgot_pass";
+        return "forgot_pass";
     }
 }
