@@ -3,7 +3,6 @@ package com.hotel.dao;
 import com.hotel.domain.User;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by Daryna_Ragimova on 4/16/2015.

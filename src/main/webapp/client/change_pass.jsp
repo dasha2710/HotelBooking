@@ -13,7 +13,7 @@
   <jsp:include page="../header.jsp"/>
 </header>
 
-<form:form action="/update_pass" method="post">
+<form:form action="/client/update_pass" method="post">
   <div align="center">
     <table><tr>
       <td>Current password:</td>

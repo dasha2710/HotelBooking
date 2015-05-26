@@ -20,13 +20,13 @@
 </header>
 <div align="center">
 <table>
-  <c:forEach var="response" items="${responses}">
+  <c:forEach var="resp" items="${responses}">
     <tr>
-      <td width="90%"><b><i>${response.user.login}</i></b></td>
-      <td align="right"><i>${response.dateCreated}</i></td>
+      <td width="90%"><b><i>${resp.user.login}</i></b></td>
+      <td align="right"><i>${resp.dateCreated}</i></td>
     </tr>
     <tr>
-      <td colspan="2">${response.text}</td>
+      <td colspan="2">${resp.text}</td>
     </tr>
   </c:forEach>
 </table>

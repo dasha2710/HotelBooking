@@ -82,10 +82,15 @@ public class BookingController {
         Date dateCheckOut = new Date(date2.getTime());
 
         if (bookingService.makeOrder(categoryId, dateCheckIn, dateCheckOut)) {
-            return new ModelAndView("client/result", "result_message", messageSource.getMessage("book.success", null, Locale.getDefault()));
+            return new ModelAndView("redirect:/client/positive_result");
         } else {
             return new ModelAndView("client/result", "result_message", messageSource.getMessage("book.fail.category.unavailable",
                     null, Locale.getDefault()));
         }
+    }
+
+    @RequestMapping(value = "client/positive_result")
+    public ModelAndView showResult(){
+        return new ModelAndView("client/result", "result_message", messageSource.getMessage("book.success", null, Locale.getDefault()));
     }
 }

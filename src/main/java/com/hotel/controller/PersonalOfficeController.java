@@ -33,7 +33,7 @@ public class PersonalOfficeController {
         return "client/personal_office";
     }
 
-    @RequestMapping(value = "/update_pass", method = RequestMethod.POST)
+    @RequestMapping(value = "/client/update_pass", method = RequestMethod.POST)
     public ModelAndView changePass(@RequestParam(value = "oldPass", required = true) String oldPass,
                              @RequestParam(value = "newPass", required = true) String newPass) {
         User user = userService.getCurrentUser();
@@ -51,7 +51,7 @@ public class PersonalOfficeController {
     public String cancelOrder(@RequestParam(value = "order_id") Integer orderId, Model model) {
         bookingService.cancelOrder(orderId);
         model.addAttribute("user", userService.getCurrentUser());
-        return "client/personal_office";
+        return "redirect:/client/office";
     }
 
 

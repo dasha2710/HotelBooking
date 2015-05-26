@@ -1,6 +1,5 @@
 package com.hotel.controller;
 
-import com.hotel.dao.ClientDao;
 import com.hotel.domain.Client;
 import com.hotel.domain.Order;
 import com.hotel.domain.Status;
@@ -44,8 +43,6 @@ public class AdminController {
     private AdminService adminService;
     @Autowired
     private RegisterFormValidator registerFormValidator;
-    @Autowired
-    private ClientDao clientDao;
     @Autowired
     private MessageSource messageSource;
 
@@ -140,7 +137,7 @@ public class AdminController {
     public ModelAndView savingUser(@Validated Client client, BindingResult result) {
         if (!result.hasErrors()) {
             userService.saveClient(client);
-            return new ModelAndView("admin/result", "result_message", messageSource.getMessage("create.client.success.admin", null, Locale.getDefault()));
+            return new ModelAndView("redirect:/admin/result", "result_message", messageSource.getMessage("create.client.success.admin", null, Locale.getDefault()));
         }
         return new ModelAndView("/admin/add_client");
     }
@@ -156,13 +153,19 @@ public class AdminController {
         Date dateCheckOut = new Date(date2.getTime());
 
         if (bookingService.makeOrder(categoryId, dateCheckIn, dateCheckOut, clientName)) {
-            return new ModelAndView("admin/result", "result_message", messageSource.getMessage("book.success.admin", null, Locale.getDefault()));
+            return new ModelAndView("redirect:/admin/result");
         } else {
             return new ModelAndView("admin/result", "result_message", messageSource.getMessage("book.fail.category.unavailable",
                     null, Locale.getDefault()));
         }
 
     }
+
+    @RequestMapping(value = "admin/positive_result")
+    public ModelAndView showResult(){
+        return new ModelAndView("admin/result", "result_message", messageSource.getMessage("book.success.admin", null, Locale.getDefault()));
+    }
+
     @RequestMapping(value = "/admin/orders/{orderId}", method = RequestMethod.GET)
     public String viewOrder(@PathVariable String orderId, Model model) {
         Order order = adminService.getOrderById(orderId);
